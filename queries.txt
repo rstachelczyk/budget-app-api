@@ -1,0 +1,42 @@
+Queries needed for app
+
+User transactions for a time period
+
+Between two dates
+
+Select *
+from transactions
+where transaction.user_id = ?
+and created_at between 01-01-23 and 01-07-23
+
+Before a certain date
+Select *
+from transactions
+where transaction.user_id = ?
+and created_at < 01-01-23
+
+
+Transactions for a certain category
+
+Select *
+from transactions
+where transaction.user_id = ?
+transactions.category_id = ?
+
+Transactions order by amount
+
+Select *
+from transactions
+where transaction.user_id = ?
+order by amount asc or desc 
+
+Budget history (being able to look at yearly report and see previous budgets since they should be able to be updated monthly)
+AKA how can I look at historical data and see what the budget was for that month if it has since changed?
+
+Do I want each user to only have one budget or one budget per account?
+
+Each category should have a budget
+Each user should have an overall budget across accounts
+Should each account have its own budget?
+
+A budget would need a user id always if the category was getting the user id through the budget

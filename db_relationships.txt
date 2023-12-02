@@ -1,0 +1,17 @@
+A user has many accounts
+
+A user has many budgets
+
+A budget has many categories
+
+A category can belong to many budgets?
+
+A transaction belongs to a category
+
+A transaction belongs to a budget through a category?
+
+A transaction belongs to an account
+
+
+Questions I still have:
+Can a transaction belong to multiple budgets?
