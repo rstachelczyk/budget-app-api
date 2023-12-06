@@ -24,7 +24,7 @@ logging:
   level:
     root: INFO
   com:
-    nps: INFO
+    rstachelczyk: INFO
 
 management:
   endpoint:
