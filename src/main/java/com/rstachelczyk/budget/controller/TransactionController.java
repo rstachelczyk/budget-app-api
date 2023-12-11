@@ -5,28 +5,34 @@ import com.rstachelczyk.budget.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Transaction Controller.
+ */
 @RestController
 @Slf4j
 @RequestMapping("api/v1/transaction")
 public class TransactionController {
 
-    private final TransactionService transactionService;
+  private final TransactionService transactionService;
 
-    @Autowired
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
+  @Autowired
+  public TransactionController(TransactionService transactionService) {
+    this.transactionService = transactionService;
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransaction(@PathVariable long id) {
-        return ResponseEntity.ok(this.transactionService.getTransaction(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Transaction> getTransaction(@PathVariable long id) {
+    return ResponseEntity.ok(this.transactionService.getTransaction(id));
+  }
 
-    @GetMapping("/helloWorld")
-    public ResponseEntity<String> helloWorld() {
-        log.info("Test Log");
-        return ResponseEntity.ok("Success");
-    }
+  @GetMapping("/helloWorld")
+  public ResponseEntity<String> helloWorld() {
+    log.info("Test Log");
+    return ResponseEntity.ok("Success");
+  }
 }
