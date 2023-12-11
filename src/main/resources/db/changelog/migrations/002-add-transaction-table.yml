@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Liquibase
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey:  true
+                    nullable:  false
+
+              - column:
+                  name: description
+                  type: varchar(255)
+
+              - column:
+                  name: amount
+                  type: INT
+
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  constraints:
+                    nullable: false
