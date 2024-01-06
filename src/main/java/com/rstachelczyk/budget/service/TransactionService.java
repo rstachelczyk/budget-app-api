@@ -21,14 +21,30 @@ public class TransactionService {
     this.transactionAccessor = transactionAccessor;
   }
 
+  /**
+   * Fetch page of transactions.
+   *
+   * @param page page number
+   * @param limit page limit
+   * @param sortBy field to sort by
+   * @param sortDir sort direction (desc, asc)
+   * @return page of transaction DTO
+   */
   public Page<Transaction> getTransactions(int page, int limit, String sortBy, String sortDir) {
     Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-      : Sort.by(sortBy).descending();
+        : Sort.by(sortBy).descending();
 
     Pageable pageable = PageRequest.of(page, limit, sort);
 
     return this.transactionAccessor.fetchTransactions(pageable);
   }
+
+  /**
+   * Fetch transaction by id.
+   *
+   * @param id transaction id
+   * @return transaction DTO
+   */
   public Transaction getTransaction(long id) {
     return this.transactionAccessor.fetchTransaction(id);
   }
