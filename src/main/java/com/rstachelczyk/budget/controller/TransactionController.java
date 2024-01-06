@@ -58,7 +58,7 @@ public class TransactionController {
    * @return transaction
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Transaction> getTransaction(@PathVariable long id) {
+  public ResponseEntity<Transaction> getTransaction(@PathVariable("id") final long id) {
     return ResponseEntity.ok(
       this.transactionService.getTransaction(id)
     );
