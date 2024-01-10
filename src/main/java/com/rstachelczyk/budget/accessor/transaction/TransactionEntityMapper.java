@@ -1,6 +1,6 @@
 package com.rstachelczyk.budget.accessor.transaction;
 
-import com.rstachelczyk.budget.model.Transaction;
+import com.rstachelczyk.budget.dto.Transaction;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +20,10 @@ public class TransactionEntityMapper {
         .id(entity.getId())
         .description(entity.getDescription())
         .amount(entity.getAmount())
+        .status(entity.getStatus())
+        .type(entity.getType())
         .createdAt(entity.getCreatedAt())
+        .updatedAt(entity.getUpdatedAt())
         .build();
   }
 }

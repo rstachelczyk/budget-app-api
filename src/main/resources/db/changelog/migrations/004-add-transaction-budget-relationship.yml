@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Liquibase
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: budget_id
+            baseTableName: transactions
+            constraintName: fk_transaction_budget
+            referencedColumnNames: id
+            referencedTableName: budgets
+            onDelete: CASCADE

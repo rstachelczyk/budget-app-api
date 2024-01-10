@@ -1,6 +1,6 @@
 package com.rstachelczyk.budget.factory;
 
-import com.rstachelczyk.budget.model.Transaction;
+import com.rstachelczyk.budget.dto.Transaction;
 import java.time.OffsetDateTime;
 
 /**

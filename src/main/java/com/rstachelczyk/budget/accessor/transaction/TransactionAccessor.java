@@ -1,7 +1,9 @@
 package com.rstachelczyk.budget.accessor.transaction;
 
+import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
+import com.rstachelczyk.budget.dto.TransactionCreateDto;
 import com.rstachelczyk.budget.exception.TransactionNotFoundException;
-import com.rstachelczyk.budget.model.Transaction;
+import com.rstachelczyk.budget.dto.Transaction;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,5 +52,14 @@ public class TransactionAccessor {
     if (transaction.isEmpty()) throw new TransactionNotFoundException(id);
 
     return transactionEntityMapper.map(transaction.get());
+  }
+
+  public Transaction createTransaction(TransactionCreateDto params, BudgetEntity budget) {
+    TransactionEntity transaction = params.toTransactionEntity();
+    transaction.setBudget(budget);
+
+    this.transactionRepository.save(transaction);
+
+    return this.transactionEntityMapper.map(transaction);
   }
 }

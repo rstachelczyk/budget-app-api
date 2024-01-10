@@ -1,15 +1,18 @@
 package com.rstachelczyk.budget.accessor.transaction;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
+import jakarta.persistence.*;
+
 import java.time.OffsetDateTime;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 /**
@@ -25,13 +28,26 @@ public class TransactionEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String description;
-  private long amount;
+
   //private Long userId;
-  //private Long categoryId;
-  //private String type;
-  //private String status;
-  // private Boolean isRecurring;
-  @CreatedDate
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "budget_id", nullable = false, referencedColumnName = "id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonIgnore
+  private BudgetEntity budget;
+
+  private String description;
+
+  private long amount;
+
+  private String type;
+
+  private String status;
+
+  private boolean isRecurring;
+
   private OffsetDateTime createdAt;
+
+  private OffsetDateTime updatedAt;
 }

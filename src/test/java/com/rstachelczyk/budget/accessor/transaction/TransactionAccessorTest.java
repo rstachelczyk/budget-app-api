@@ -4,13 +4,14 @@ import static java.time.OffsetDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.rstachelczyk.budget.TestConstants;
+import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.exception.TransactionNotFoundException;
-import com.rstachelczyk.budget.model.Transaction;
+import com.rstachelczyk.budget.dto.Transaction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -40,11 +41,12 @@ class TransactionAccessorTest {
   @DisplayName("When given pagination params, fetches transactions and converts to DTO")
   void whenGivenPageable_fetchTransactions_successfullyReturnsPageOfTransactionDTO() {
     Pageable page = PageRequest.of(0, 20);
+    BudgetEntity mockBudget = new BudgetEntity();
 
     List<TransactionEntity> mockTransactionEntityList = List.of(
-      new TransactionEntity(1L, "test 1", 1000L, now()),
-      new TransactionEntity(2L, "test 2", 1000L, now()),
-      new TransactionEntity(3L, "test 3", 1000L, now())
+      new TransactionEntity(1L, mockBudget, "test 1",1000L, "charge", "settled", false, now(), now()),
+      new TransactionEntity(2L, mockBudget,  "test 2", 1000L, "charge", "settled", false, now(), now()),
+      new TransactionEntity(3L, mockBudget, "test 3", 1000L, "charge", "settled", false, now(), now())
     );
     Page<TransactionEntity> mockRepositoryResponse = new PageImpl<>(mockTransactionEntityList);
 

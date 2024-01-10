@@ -1,4 +1,4 @@
-package com.rstachelczyk.budget.model;
+package com.rstachelczyk.budget.dto;
 
 /**
  * Error record object.

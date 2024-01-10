@@ -7,8 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
-import com.rstachelczyk.budget.model.Transaction;
-import com.rstachelczyk.budget.utils.AppConstants;
+import com.rstachelczyk.budget.dto.Transaction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;

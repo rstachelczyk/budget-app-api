@@ -1,4 +1,4 @@
-package com.rstachelczyk.budget.model;
+package com.rstachelczyk.budget.dto;
 
 import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
@@ -15,9 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Transaction {
   private Long id;
+  //private Long categoryId;
+  //private Long budgetId;
   private String description;
   private long amount;
-  //private Long categoryId;
-
+  private String type;
+  private String status;
+  private boolean isRecurring;
   private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
 }
