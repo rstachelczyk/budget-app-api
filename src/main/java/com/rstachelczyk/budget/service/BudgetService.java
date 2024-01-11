@@ -12,11 +12,22 @@ import org.springframework.stereotype.Service;
 public class BudgetService {
   private final BudgetAccessor budgetAccessor;
 
+  /**
+   * Constructor.
+   *
+   * @param budgetAccessor budget accessor
+   */
   @Autowired
   public BudgetService(BudgetAccessor budgetAccessor) {
     this.budgetAccessor = budgetAccessor;
   }
 
+  /**
+   * Fetch budget by id.
+   *
+   * @param id budget id
+   * @return budget Dto
+   */
   public Budget getBudget(long id) {
     return this.budgetAccessor.fetchBudget(id);
   }

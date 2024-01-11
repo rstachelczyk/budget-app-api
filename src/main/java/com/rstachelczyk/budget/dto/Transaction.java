@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Transaction {
   private Long id;
   //private Long categoryId;
-  //private Long budgetId;
+  private Long budgetId;
   private String description;
   private long amount;
   private String type;

@@ -3,11 +3,9 @@ package com.rstachelczyk.budget.service;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.accessor.budget.BudgetRepository;
 import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
-import com.rstachelczyk.budget.accessor.transaction.TransactionEntity;
-import com.rstachelczyk.budget.dto.Budget;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
-import com.rstachelczyk.budget.exception.BudgetNotFoundException;
+import com.rstachelczyk.budget.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,12 +63,13 @@ public class TransactionService {
     return this.transactionAccessor.fetchTransaction(id);
   }
 
-  public Transaction createTransaction(TransactionCreateDto params) {
+  public Transaction createTransaction(TransactionCreateDto params) throws ResourceNotFoundException {
 //    Budget budget = this.budgetService.getBudget(params.getBudgetId());
 
     Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
 
-    if (budget.isEmpty()) throw new BudgetNotFoundException(params.getBudgetId());
+    if (budget.isEmpty()) throw new ResourceNotFoundException(
+      "Budget not found with Id: " + params.getBudgetId());
 
     return this.transactionAccessor.createTransaction(params, budget.get());
   }

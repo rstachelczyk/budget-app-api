@@ -5,12 +5,16 @@ import com.rstachelczyk.budget.accessor.transaction.TransactionEntity;
 import jakarta.validation.constraints.*;
 
 import java.time.OffsetDateTime;
-import lombok.Data;
+
+import lombok.*;
 
 /**
  * Transaction Create Dto.
  */
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TransactionCreateDto {
 
   @NotEmpty(message = "Description is required.")

@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(TransactionNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleTransactionNotFound(TransactionNotFoundException ex) {
-    Error error = new Error("20", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(error));
-  }
-
-  @ExceptionHandler(BudgetNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleTransactionNotFound(BudgetNotFoundException ex) {
+  /**
+   * Handles resource not found errors.
+   * @param ex  ResourceNotFoundException instance
+   * @return 404 not found with errors list
+   */
+  @ExceptionHandler(ResourceNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
     Error error = new Error("20", ex.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(error));
   }

@@ -18,6 +18,7 @@ public class TransactionEntityMapper {
   public Transaction map(TransactionEntity entity) {
     return Transaction.builder()
         .id(entity.getId())
+        .budgetId(entity.getBudget().getId())
         .description(entity.getDescription())
         .amount(entity.getAmount())
         .status(entity.getStatus())
