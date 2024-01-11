@@ -6,6 +6,7 @@ import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
 import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,25 +14,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * Transaction Service.
  */
 @Service
 public class TransactionService {
   private final TransactionAccessor transactionAccessor;
-//  private final BudgetService budgetService;
+  //private final BudgetService budgetService;
   private final BudgetRepository budgetRepository;
 
   @Autowired
   public TransactionService(
-    TransactionAccessor transactionAccessor,
-//    BudgetService budgetService
-    BudgetRepository budgetRepository
+      TransactionAccessor transactionAccessor,
+      //BudgetService budgetService
+      BudgetRepository budgetRepository
   ) {
     this.transactionAccessor = transactionAccessor;
-//    this.budgetService = budgetService;
+    //this.budgetService = budgetService;
     this.budgetRepository = budgetRepository;
   }
 
@@ -63,8 +62,16 @@ public class TransactionService {
     return this.transactionAccessor.fetchTransaction(id);
   }
 
-  public Transaction createTransaction(TransactionCreateDto params) throws ResourceNotFoundException {
-//    Budget budget = this.budgetService.getBudget(params.getBudgetId());
+  /**
+   * Create transaction with params.
+   *
+   * @param params validated body params from create request
+   * @return created transaction Dto
+   * @throws ResourceNotFoundException resource not found exception
+   */
+  public Transaction createTransaction(TransactionCreateDto params)
+      throws ResourceNotFoundException {
+    //Budget budget = this.budgetService.getBudget(params.getBudgetId());
 
     Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
 

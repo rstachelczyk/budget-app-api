@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
 
   /**
    * Handles resource not found errors.
+   *
    * @param ex  ResourceNotFoundException instance
    * @return 404 not found with errors list
    */

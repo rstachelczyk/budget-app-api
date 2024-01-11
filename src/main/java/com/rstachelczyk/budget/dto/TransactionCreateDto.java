@@ -2,11 +2,16 @@ package com.rstachelczyk.budget.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rstachelczyk.budget.accessor.transaction.TransactionEntity;
-import jakarta.validation.constraints.*;
-
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Transaction Create Dto.
@@ -22,7 +27,7 @@ public class TransactionCreateDto {
   private String description;
 
   @PositiveOrZero(message = "Amount must be greater than or equal to 0.")
-//  @Max(value = , message = "Amount must be less than ")
+  //@Max(value = , message = "Amount must be less than ")
   private Long amount;
 
   @Positive(message = "Budget Id must be greater than 0.")

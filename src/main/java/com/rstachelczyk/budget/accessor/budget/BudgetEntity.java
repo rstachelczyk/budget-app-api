@@ -1,11 +1,11 @@
 package com.rstachelczyk.budget.accessor.budget;
 
-import com.rstachelczyk.budget.accessor.transaction.TransactionEntity;
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
