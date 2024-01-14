@@ -77,4 +77,17 @@ public class TransactionAccessor {
 
     return this.transactionEntityMapper.map(transaction);
   }
+
+
+  /**
+   * Delete transaction by id.
+   *
+   * @param id transaction to be deleted
+   * @throws ResourceNotFoundException resource not found exception
+   */
+  public void deleteTransaction(long id) throws ResourceNotFoundException {
+    this.fetchTransaction(id);
+
+    this.transactionRepository.deleteById(id);
+  }
 }

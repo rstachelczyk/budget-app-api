@@ -3,7 +3,7 @@ package com.rstachelczyk.budget.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
@@ -78,5 +78,15 @@ class TransactionServiceTest {
     Transaction response = this.transactionService.createTransaction(params);
 
     assertThat(response).isNotNull();
+  }
+
+  @Test
+  @DisplayName("When deleting a transaction by Id, returns Transaction DTO")
+  void givenValidTransactionId_whenDeleteTransaction_thenDeletesTransaction() {
+    doNothing().when(transactionAccessorMock).deleteTransaction(anyLong());
+
+    this.transactionService.deleteTransaction(TestConstants.LONG);
+
+    verify(transactionAccessorMock, times(1)).deleteTransaction(TestConstants.LONG);
   }
 }

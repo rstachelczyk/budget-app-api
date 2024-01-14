@@ -80,4 +80,13 @@ public class TransactionService {
 
     return this.transactionAccessor.createTransaction(params, budget.get());
   }
+
+  /**
+   * Delete transaction by id.
+   *
+   * @param id transaction id
+   */
+  public void deleteTransaction(long id) {
+    this.transactionAccessor.deleteTransaction(id);
+  }
 }
