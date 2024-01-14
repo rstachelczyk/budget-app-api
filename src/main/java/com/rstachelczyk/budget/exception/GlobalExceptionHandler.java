@@ -1,6 +1,5 @@
 package com.rstachelczyk.budget.exception;
 
-import com.rstachelczyk.budget.dto.Budget;
 import com.rstachelczyk.budget.dto.Error;
 import com.rstachelczyk.budget.dto.ErrorResponse;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 
 /**
  * Global Exception Handler.
