@@ -18,7 +18,7 @@ public class TransactionFactory {
     return Transaction.builder()
           .id(id)
           .description("Test description")
-          .amount(1000)
+          .amount(1000L)
           .createdAt(OffsetDateTime.now())
           .build();
   }

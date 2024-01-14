@@ -1,8 +1,6 @@
 package com.rstachelczyk.budget.accessor.budget;
 
-import com.rstachelczyk.budget.accessor.transaction.TransactionEntity;
 import com.rstachelczyk.budget.dto.Budget;
-import com.rstachelczyk.budget.dto.Transaction;
 import org.springframework.stereotype.Component;
 
 /**

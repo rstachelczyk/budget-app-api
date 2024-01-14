@@ -1,0 +1,12 @@
+Each user can have a monthly, yearly, bi-weekly, etc spending limit
+
+The stats page with charts can be based off of this time frame with the option to toggle between different views
+
+Want to keep track of history for budgets and users
+-When they change their limits we want to have a history so I can show growth / decline over time
+
+Swift UI Course Video 
+
+https://www.youtube.com/watch?v=b1oC7sLIgpI
+
+

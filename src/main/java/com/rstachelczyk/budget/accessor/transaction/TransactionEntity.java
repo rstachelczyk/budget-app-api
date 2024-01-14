@@ -43,13 +43,13 @@ public class TransactionEntity {
 
   private String description;
 
-  private long amount;
+  private Long amount;
 
   private String type;
 
   private String status;
 
-  private boolean isRecurring;
+  private Boolean isRecurring;
 
   private OffsetDateTime createdAt;
 

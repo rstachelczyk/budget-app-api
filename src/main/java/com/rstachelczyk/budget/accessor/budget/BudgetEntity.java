@@ -27,7 +27,7 @@ public class BudgetEntity {
 
   private String name;
 
-  private long targetAmount;
+  private Long targetAmount;
 
   private String icon;
 

@@ -27,7 +27,6 @@ public class TransactionCreateDto {
   private String description;
 
   @PositiveOrZero(message = "Amount must be greater than or equal to 0.")
-  //@Max(value = , message = "Amount must be less than ")
   private Long amount;
 
   @Positive(message = "Budget Id must be greater than 0.")

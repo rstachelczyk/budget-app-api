@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Budget {
-  private long id;
+  private Long id;
   private String name;
-  private long targetAmount;
+  private Long targetAmount;
   private String icon;
   private OffsetDateTime createdAt;
   private OffsetDateTime updatedAt;

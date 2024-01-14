@@ -19,10 +19,12 @@ public class TransactionEntityMapper {
     return Transaction.builder()
         .id(entity.getId())
         .budgetId(entity.getBudget().getId())
+        .budgetName(entity.getBudget().getName())
         .description(entity.getDescription())
         .amount(entity.getAmount())
         .status(entity.getStatus())
         .type(entity.getType())
+        .isRecurring(entity.getIsRecurring())
         .createdAt(entity.getCreatedAt())
         .updatedAt(entity.getUpdatedAt())
         .build();

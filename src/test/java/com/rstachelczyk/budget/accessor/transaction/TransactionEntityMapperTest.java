@@ -2,6 +2,7 @@ package com.rstachelczyk.budget.accessor.transaction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +13,14 @@ class TransactionEntityMapperTest {
 
   private TransactionEntityMapper mapper;
   private TransactionEntity entity;
+  private BudgetEntity associatedEntity;
 
   @BeforeEach
   void setUp() {
     mapper = new TransactionEntityMapper();
     entity = new TransactionEntity();
+    associatedEntity = new BudgetEntity();
+    entity.setBudget(associatedEntity);
   }
 
   @Test
@@ -27,6 +31,28 @@ class TransactionEntityMapperTest {
     Transaction transaction = this.mapper.map(entity);
 
     assertThat(transaction.getId()).isEqualTo(entity.getId());
+  }
+
+  @Test
+  @DisplayName("budgetId from entity is echoed on DTO")
+  void budgetIdFromEntityIsEchoedOnDto() {
+    associatedEntity.setId(123L);
+    entity.setBudget(associatedEntity);
+
+    Transaction transaction = this.mapper.map(entity);
+
+    assertThat(transaction.getBudgetId()).isEqualTo(associatedEntity.getId());
+  }
+
+  @Test
+  @DisplayName("budgetName from entity is echoed on DTO")
+  void budgetNameFromEntityIsEchoedOnDto() {
+    associatedEntity.setName("Food");
+    entity.setBudget(associatedEntity);
+
+    Transaction transaction = this.mapper.map(entity);
+
+    assertThat(transaction.getBudgetName()).isEqualTo(associatedEntity.getName());
   }
 
   @Test
@@ -42,7 +68,7 @@ class TransactionEntityMapperTest {
   @Test
   @DisplayName("Amount from entity is echoed on DTO")
   void amountFromEntityIsEchoedOnDto() {
-    entity.setAmount(1000);
+    entity.setAmount(1000L);
 
     Transaction transaction = this.mapper.map(entity);
 
@@ -67,6 +93,17 @@ class TransactionEntityMapperTest {
     Transaction transaction = this.mapper.map(entity);
 
     assertThat(transaction.getType()).isEqualTo(entity.getType());
+  }
+
+  @Test
+  @DisplayName("isRecurring from entity is echoed on DTO")
+  void isRecurringFromEntityIsEchoedOnDto() {
+    entity.setIsRecurring(true);
+
+    Transaction transaction = this.mapper.map(entity);
+
+    assertThat(transaction.getIsRecurring())
+        .isEqualTo(entity.getIsRecurring());
   }
 
   @Test

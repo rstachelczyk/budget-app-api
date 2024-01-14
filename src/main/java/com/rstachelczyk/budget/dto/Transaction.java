@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Transaction {
   private Long id;
-  //private Long categoryId;
   private Long budgetId;
+  private String budgetName;
   private String description;
-  private long amount;
+  private Long amount;
   private String type;
   private String status;
-  private boolean isRecurring;
+  private Boolean isRecurring;
   private OffsetDateTime createdAt;
   private OffsetDateTime updatedAt;
 }
