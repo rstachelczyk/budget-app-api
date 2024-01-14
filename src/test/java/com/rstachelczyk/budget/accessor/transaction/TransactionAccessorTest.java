@@ -7,10 +7,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.rstachelczyk.budget.TestConstants;
-import com.rstachelczyk.budget.exception.TransactionNotFoundException;
-import com.rstachelczyk.budget.model.Transaction;
-
-import java.util.ArrayList;
+import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
+import com.rstachelczyk.budget.dto.TransactionCreateDto;
+import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import com.rstachelczyk.budget.dto.Transaction;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -40,11 +40,12 @@ class TransactionAccessorTest {
   @DisplayName("When given pagination params, fetches transactions and converts to DTO")
   void whenGivenPageable_fetchTransactions_successfullyReturnsPageOfTransactionDTO() {
     Pageable page = PageRequest.of(0, 20);
+    BudgetEntity mockBudget = new BudgetEntity();
 
     List<TransactionEntity> mockTransactionEntityList = List.of(
-      new TransactionEntity(1L, "test 1", 1000L, now()),
-      new TransactionEntity(2L, "test 2", 1000L, now()),
-      new TransactionEntity(3L, "test 3", 1000L, now())
+      new TransactionEntity(1L, mockBudget, "test 1",1000L, "charge", "settled", false, now(), now()),
+      new TransactionEntity(2L, mockBudget,  "test 2", 1000L, "charge", "settled", false, now(), now()),
+      new TransactionEntity(3L, mockBudget, "test 3", 1000L, "charge", "settled", false, now(), now())
     );
     Page<TransactionEntity> mockRepositoryResponse = new PageImpl<>(mockTransactionEntityList);
 
@@ -71,15 +72,44 @@ class TransactionAccessorTest {
   }
 
   @Test
-  @DisplayName("When Transaction record doesn't exist, throws TransactionNotFoundException")
-  void whenGivenInvalidId_fetchTransaction_successfullyReturnsTransactionDto() {
+  @DisplayName("When Transaction record doesn't exist, throws ResourceNotFoundException")
+  void whenGivenInvalidId_fetchTransaction_throwsResourceNotFoundException() {
     long id = TestConstants.LONG;
 
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-            TransactionNotFoundException.class,
+            ResourceNotFoundException.class,
             () -> this.transactionAccessor.fetchTransaction(id)
     );
+  }
+
+  @Test
+  @DisplayName("When creating new transaction, saves entity to db")
+  void whenGivenValidTransactionAndBudget_createTransaction_savesEntityToDb() {
+    BudgetEntity budget = BudgetEntity.builder()
+      .id(1L)
+      .name("Test")
+      .targetAmount(100L)
+      .createdAt(now())
+      .updatedAt(now())
+      .build();
+
+    TransactionCreateDto params = new TransactionCreateDto(
+      "test 1", 1000L, 4L,"charge", "settled", false, now(), now()
+    );
+
+    TransactionEntity entity = params.toTransactionEntity();
+    entity.setBudget(budget);
+
+    when(this.transactionRepositoryMock.save(any(TransactionEntity.class)))
+      .thenReturn(entity);
+
+    when(this.transactionEntityMapperMock.map(any(TransactionEntity.class)))
+      .thenReturn(new Transaction());
+
+    Transaction result = this.transactionAccessor.createTransaction(params, budget);
+
+    assertThat(result).isNotNull();
   }
 }

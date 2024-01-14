@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 3
       author: Liquibase
       changes:
         - createTable:
-            tableName: transactions
+            tableName: budgets
             columns:
               - column:
                   name: id
@@ -15,37 +15,20 @@ databaseChangeLog:
                     nullable:  false
 
               - column:
-                  name: budget_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-
-              - column:
-                  name: description
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
 
               - column:
-                  name: amount
+                  name: target_amount
                   type: INT
                   constraints:
                     nullable: false
 
               - column:
-                  name: type
-                  type: varchar(10)
-
-              - column:
-                  name: status
-                  type: varchar(10)
-
-              - column:
-                  name: is_recurring
-                  type: boolean
-                  defaultValueBoolean: false
-                  constraints:
-                    nullable: false
+                  name: icon
+                  type: varchar(30)
 
               - column:
                   name: updated_at

@@ -1,4 +1,4 @@
-package com.rstachelczyk.budget.model;
+package com.rstachelczyk.budget.dto;
 
 import java.time.OffsetDateTime;
 import lombok.AllArgsConstructor;
@@ -7,17 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Transaction DTO.
+ * Budget Dto.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction {
+public class Budget {
   private Long id;
-  private String description;
-  private long amount;
-  //private Long categoryId;
-
+  private String name;
+  private Long targetAmount;
+  private String icon;
   private OffsetDateTime createdAt;
+  private OffsetDateTime updatedAt;
 }

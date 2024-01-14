@@ -1,6 +1,6 @@
 package com.rstachelczyk.budget.factory;
 
-import com.rstachelczyk.budget.model.Transaction;
+import com.rstachelczyk.budget.dto.Transaction;
 import java.time.OffsetDateTime;
 
 /**
@@ -18,7 +18,7 @@ public class TransactionFactory {
     return Transaction.builder()
           .id(id)
           .description("Test description")
-          .amount(1000)
+          .amount(1000L)
           .createdAt(OffsetDateTime.now())
           .build();
   }
