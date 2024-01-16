@@ -4,7 +4,7 @@ import static java.time.OffsetDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
@@ -111,5 +111,35 @@ class TransactionAccessorTest {
     Transaction result = this.transactionAccessor.createTransaction(params, budget);
 
     assertThat(result).isNotNull();
+  }
+
+  @Test
+  @DisplayName("When Transaction record exists, deletes record")
+  void whenGivenValidId_deleteTransaction_successfullyDeletesTransaction() {
+    long id = TestConstants.LONG_OBJECT;
+
+    when(transactionRepositoryMock.findById(id)).thenReturn(Optional.of(new TransactionEntity()));
+
+    when(transactionEntityMapperMock.map(any(TransactionEntity.class)))
+      .thenReturn(new Transaction());
+
+    doNothing().when(transactionRepositoryMock).deleteById(id);
+
+    this.transactionAccessor.deleteTransaction(id);
+
+    verify(transactionRepositoryMock, times(1)).deleteById(id);
+  }
+
+  @Test
+  @DisplayName("When Transaction record doesn't exist, throws ResourceNotFoundException")
+  void whenGivenInvalidId_deleteTransaction_throwsResourceNotFoundException() {
+    long id = TestConstants.LONG;
+
+    when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
+
+    assertThrows(
+      ResourceNotFoundException.class,
+      () -> this.transactionAccessor.deleteTransaction(id)
+    );
   }
 }
