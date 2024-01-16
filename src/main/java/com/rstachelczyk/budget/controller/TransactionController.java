@@ -50,6 +50,7 @@ public class TransactionController {
       @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
       @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir
   ) {
+    log.info("Fetching Transactions");
     return ResponseEntity.ok(
       this.transactionService.getTransactions(page, limit, sortBy, sortDir)
     );
@@ -64,6 +65,7 @@ public class TransactionController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<Transaction> getTransaction(@PathVariable("id") final long id) {
+    log.info("Fetching Transaction with id:" + id);
     return ResponseEntity.ok(
       this.transactionService.getTransaction(id)
     );
@@ -79,6 +81,7 @@ public class TransactionController {
   public ResponseEntity<Transaction> createTransaction(
       @Valid @RequestBody TransactionCreateDto request
   ) {
+    log.info("Creating new transaction with params: " + request);
     return new ResponseEntity<>(
       this.transactionService.createTransaction(request),
       HttpStatus.CREATED
