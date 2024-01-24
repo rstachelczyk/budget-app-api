@@ -3,6 +3,7 @@ package com.rstachelczyk.budget.accessor.transaction;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
+import com.rstachelczyk.budget.dto.TransactionUpdateDto;
 import com.rstachelczyk.budget.exception.ResourceNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,31 @@ public class TransactionAccessor {
     return this.transactionEntityMapper.map(transaction);
   }
 
+  public Transaction updateTransaction(long id, TransactionUpdateDto params)
+      throws ResourceNotFoundException {
+    TransactionEntity entity = this.getTransaction(id);
+
+    TransactionEntity updated = this.transactionEntityMapper.merge(entity, params);
+
+    this.transactionRepository.save(updated);
+
+    return this.transactionEntityMapper.map(updated);
+  }
+
+  public Transaction updateTransaction(
+    long id,
+    TransactionUpdateDto params,
+    BudgetEntity budget
+  ) throws ResourceNotFoundException {
+    TransactionEntity entity = getTransaction(id);
+
+    TransactionEntity updated = this.transactionEntityMapper.merge(entity, params);
+    entity.setBudget(budget);
+
+    this.transactionRepository.save(updated);
+
+    return this.transactionEntityMapper.map(updated);
+  }
 
   /**
    * Delete transaction by id.
@@ -89,5 +115,14 @@ public class TransactionAccessor {
     this.fetchTransaction(id);
 
     this.transactionRepository.deleteById(id);
+  }
+
+  private TransactionEntity getTransaction(long id) throws ResourceNotFoundException {
+    Optional<TransactionEntity> transaction = this.transactionRepository.findById(id);
+
+    if (transaction.isEmpty()) throw new ResourceNotFoundException(
+      "Transaction not found with Id: " + id);
+
+    return transaction.get();
   }
 }

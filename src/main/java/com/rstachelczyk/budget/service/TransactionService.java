@@ -5,6 +5,7 @@ import com.rstachelczyk.budget.accessor.budget.BudgetRepository;
 import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
+import com.rstachelczyk.budget.dto.TransactionUpdateDto;
 import com.rstachelczyk.budget.exception.ResourceNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,21 @@ public class TransactionService {
 
     return this.transactionAccessor.createTransaction(params, budget.get());
   }
+
+  public Transaction updateTransaction(long id, TransactionUpdateDto params)
+      throws ResourceNotFoundException {
+    if (params.getBudgetId() != null) {
+      Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
+
+      if (budget.isEmpty()) throw new ResourceNotFoundException(
+        "Budget not found with Id: " + params.getBudgetId());
+
+      return this.transactionAccessor.updateTransaction(id, params, budget.get());
+    }
+
+    return this.transactionAccessor.updateTransaction(id, params);
+  }
+
 
   /**
    * Delete transaction by id.

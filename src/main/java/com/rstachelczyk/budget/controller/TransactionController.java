@@ -2,6 +2,7 @@ package com.rstachelczyk.budget.controller;
 
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
+import com.rstachelczyk.budget.dto.TransactionUpdateDto;
 import com.rstachelczyk.budget.service.TransactionService;
 import com.rstachelczyk.budget.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -10,14 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Transaction Controller.
@@ -86,6 +80,23 @@ public class TransactionController {
     return new ResponseEntity<>(
       this.transactionService.createTransaction(request),
       HttpStatus.CREATED
+    );
+  }
+
+  /**
+   * Update transaction by id.
+   *
+   * @param id transaction id
+   * @return transaction
+   */
+  @PutMapping("/{id}")
+  public ResponseEntity<Transaction> updateTransaction(
+      @PathVariable("id") final long id,
+      @Valid @RequestBody TransactionUpdateDto request
+  ) {
+    log.info("Updating transaction of Id: " + id + "with params: " + request);
+    return ResponseEntity.ok(
+      this.transactionService.updateTransaction(id, request)
     );
   }
 

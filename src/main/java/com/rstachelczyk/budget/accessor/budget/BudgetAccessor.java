@@ -2,7 +2,11 @@ package com.rstachelczyk.budget.accessor.budget;
 
 import com.rstachelczyk.budget.dto.Budget;
 import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +31,14 @@ public class BudgetAccessor {
   ) {
     this.budgetRepository = budgetRepository;
     this.budgetEntityMapper = budgetEntityMapper;
+  }
+
+  public List<Budget> fetchBudgets() {
+    List<BudgetEntity> budgets = this.budgetRepository.findAll();
+
+    return budgets.stream()
+        .map(this.budgetEntityMapper::map)
+        .collect(Collectors.toList());
   }
 
   /**
