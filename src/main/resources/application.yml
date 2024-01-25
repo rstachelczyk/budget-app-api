@@ -59,3 +59,7 @@ info:
     artifact: '@project.artifactId@'
     name: '@project.name@'
     version: '@project.version@'
+
+token.expiration: 3600000
+
+token.secret.key: dce7fe86f4cb0bf3b04cdf46fb456fe79baf5919cebf49456b37fa222041d70f
