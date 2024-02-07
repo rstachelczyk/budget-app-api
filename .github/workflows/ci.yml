@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Build and lint
-        run: mvn -B -Dmaven.test.skip=true checkstyle:checkstyle
+        run: mvn -B -Dmaven.test.skip=true checkstyle:check
 
   unit-test:
     name: Unit Tests
