@@ -1,8 +1,8 @@
 package com.rstachelczyk.budget.service;
 
 import com.rstachelczyk.budget.accessor.budget.BudgetAccessor;
-import com.rstachelczyk.budget.dto.Budget;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.rstachelczyk.budget.dto.Budget;
 import org.springframework.stereotype.Service;
 
 /**
