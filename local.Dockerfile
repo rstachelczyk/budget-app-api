@@ -28,7 +28,7 @@ RUN mvn -Dmaven.main.skip \
 
 COPY package*.json ./
 
-RUN --mount=type=cache,target=./node_modules npm ci
+RUN npm ci
 
 RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
