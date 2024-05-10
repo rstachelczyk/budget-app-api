@@ -1,4 +1,5 @@
-FROM maven:3.8-openjdk-17 AS budget-api-development
+#FROM maven:3.8-openjdk-17 AS budget-api-development
+FROM maven:3.9.6-ibm-semeru-17-focal as budget-api-development
 
 ENV LANG=C.UTF-8 \
     APP_HOME=/usr/src/app \
