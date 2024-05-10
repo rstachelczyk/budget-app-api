@@ -34,17 +34,17 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
-  projects: [
-    {name: 'setup', testMatch: /.*\.setup\.ts/},
-
-    {
-      name: 'api',
-      user: {
-        storageState: 'playwright/.auth/user.json'
-      },
-      dependencies: ['setup']
-    }
-  ]
+//   projects: [
+//     {name: 'setup', testMatch: /.*\.setup\.ts/},
+//
+//     {
+//       name: 'api',
+//       user: {
+//         storageState: 'playwright/.auth/user.json'
+//       },
+//       dependencies: ['setup']
+//     }
+//   ]
 
   /* Configure projects for major browsers */
   // projects: [
