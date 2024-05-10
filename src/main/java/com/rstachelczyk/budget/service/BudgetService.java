@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BudgetService {
+
   private final BudgetAccessor budgetAccessor;
 
   /**
@@ -26,6 +27,7 @@ public class BudgetService {
    * Fetch budget by id.
    *
    * @param id budget id
+   *
    * @return budget Dto
    */
   public Budget getBudget(long id) {

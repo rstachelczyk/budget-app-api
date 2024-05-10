@@ -54,13 +54,13 @@ public class TransactionCreateDto {
    */
   public TransactionEntity toTransactionEntity() {
     return TransactionEntity.builder()
-      .description(this.description)
-      .amount(this.amount)
-      .type(this.type)
-      .status(this.status)
-      .isRecurring(this.isRecurring)
-      .createdAt(this.createdAt)
-      .updatedAt(this.updatedAt)
-      .build();
+        .description(this.description)
+        .amount(this.amount)
+        .type(this.type)
+        .status(this.status)
+        .isRecurring(this.isRecurring)
+        .createdAt(this.createdAt)
+        .updatedAt(this.updatedAt)
+        .build();
   }
 }

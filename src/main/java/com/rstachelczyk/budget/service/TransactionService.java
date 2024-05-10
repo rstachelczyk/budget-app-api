@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TransactionService {
+
   private final TransactionAccessor transactionAccessor;
+
   //private final BudgetService budgetService;
   private final BudgetRepository budgetRepository;
 
@@ -37,14 +39,16 @@ public class TransactionService {
   /**
    * Fetch page of transactions.
    *
-   * @param page page number
-   * @param limit page limit
-   * @param sortBy field to sort by
+   * @param page    page number
+   * @param limit   page limit
+   * @param sortBy  field to sort by
    * @param sortDir sort direction (desc, asc)
+   *
    * @return page of transaction DTO
    */
   public Page<Transaction> getTransactions(int page, int limit, String sortBy, String sortDir) {
-    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+        ? Sort.by(sortBy).ascending()
         : Sort.by(sortBy).descending();
 
     Pageable pageable = PageRequest.of(page, limit, sort);
@@ -56,6 +60,7 @@ public class TransactionService {
    * Fetch transaction by id.
    *
    * @param id transaction id
+   *
    * @return transaction DTO
    */
   public Transaction getTransaction(long id) {
@@ -66,7 +71,9 @@ public class TransactionService {
    * Create transaction with params.
    *
    * @param params validated body params from create request
+   *
    * @return created transaction Dto
+   *
    * @throws ResourceNotFoundException resource not found exception
    */
   public Transaction createTransaction(TransactionCreateDto params)
@@ -75,8 +82,9 @@ public class TransactionService {
 
     Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
 
-    if (budget.isEmpty()) throw new ResourceNotFoundException(
-      "Budget not found with Id: " + params.getBudgetId());
+    if (budget.isEmpty()) {
+      throw new ResourceNotFoundException("Budget not found with Id: " + params.getBudgetId());
+    }
 
     return this.transactionAccessor.createTransaction(params, budget.get());
   }

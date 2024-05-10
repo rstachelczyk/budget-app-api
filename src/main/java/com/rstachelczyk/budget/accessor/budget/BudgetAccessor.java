@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BudgetAccessor {
+
   private final BudgetRepository budgetRepository;
+
   private final BudgetEntityMapper budgetEntityMapper;
 
   /**
    * Constructor.
    *
-   * @param budgetRepository budget repository
+   * @param budgetRepository   budget repository
    * @param budgetEntityMapper entity mapper used to convert to Dto
    */
   @Autowired
@@ -33,14 +35,17 @@ public class BudgetAccessor {
    * Fetch budget by id and put into Dto.
    *
    * @param id budget to be fetched
+   *
    * @return fetched budget mapped to Dto
+   *
    * @throws ResourceNotFoundException resource not found exception
    */
   public Budget fetchBudget(long id) throws ResourceNotFoundException {
     Optional<BudgetEntity> budget = this.budgetRepository.findById(id);
 
-    if (budget.isEmpty()) throw new ResourceNotFoundException(
-        "Budget not found with Id: " + id);
+    if (budget.isEmpty()) {
+      throw new ResourceNotFoundException("Budget not found with Id: " + id);
+    }
 
     return this.budgetEntityMapper.map(budget.get());
   }

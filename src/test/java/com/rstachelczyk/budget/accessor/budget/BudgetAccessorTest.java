@@ -36,7 +36,7 @@ class BudgetAccessorTest {
     when(budgetRepositoryMock.findById(id)).thenReturn(Optional.of(new BudgetEntity()));
 
     when(budgetEntityMapperMock.map(any(BudgetEntity.class)))
-      .thenReturn(new Budget());
+        .thenReturn(new Budget());
 
     Budget response = this.budgetAccessor.fetchBudget(id);
 
@@ -51,8 +51,8 @@ class BudgetAccessorTest {
     when(budgetRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-      ResourceNotFoundException.class,
-      () -> this.budgetAccessor.fetchBudget(id)
+        ResourceNotFoundException.class,
+        () -> this.budgetAccessor.fetchBudget(id)
     );
   }
 }
