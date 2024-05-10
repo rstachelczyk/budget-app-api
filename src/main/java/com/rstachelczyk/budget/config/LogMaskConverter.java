@@ -39,7 +39,8 @@ public class LogMaskConverter extends CompositeConverter<ILoggingEvent> implemen
    * Mask sensitive data in the message.
    *
    * @param context the current JSON stream context, which can be used to determine the path
-   *                within the JSON output. (could be at a field value path or an array element value path)
+   *                within the JSON output. (could be at a field value path or an array element
+   *                value path)
    * @param value   the number or string scalar value to potentially mask (could be a field value
    *                or an array element value).
    *
