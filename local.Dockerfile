@@ -8,6 +8,10 @@ ENV LANG=C.UTF-8 \
 
 WORKDIR $APP_HOME
 
+# Register Node 18 from Nodesource repository
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+  apt-get install -y nodejs
+
 COPY pom.xml ./
 
 RUN mvn -Dmaven.main.skip \
@@ -19,14 +23,17 @@ RUN mvn -Dmaven.main.skip \
 RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
   -Dmaven.repo.local=${MAVEN_BUILD_REPO} \
-  dependency:resolve-plugins
+  dependency:resolve-plugins \
+
+COPY package*.json ./
+
+RUN --mount=type=cache, target=./node_modules npm ci
 
 RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
   -Dspring-boot.repackage.skip \
   -Dmaven.repo.local=${MAVEN_BUILD_REPO} \
   package
-
 
 COPY . ./
 

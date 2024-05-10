@@ -1,0 +1,14 @@
+{
+  "name": "budget-app-api",
+  "version": "1.0.0",
+  "description": "### Reference Documentation For further reference, please consider the following sections:",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.12.11"
+  }
+}
