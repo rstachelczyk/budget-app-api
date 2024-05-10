@@ -1,9 +1,19 @@
 package com.rstachelczyk.budget.accessor.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
   Optional<UserEntity> findByEmail(String email);
+
+  @Query("UPDATE Users u SET u.lockedAt = NULL WHERE u.email = ?1")
+  @Modifying
+  void removeLockedAt(String email);
+
+  @Query("UPDATE Users u SET u.failedAttempts = ?1 WHERE u.email = ?2")
+  @Modifying
+  void updateFailedAttempts(int failAttempts, String email);
 }

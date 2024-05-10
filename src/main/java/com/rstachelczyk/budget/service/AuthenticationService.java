@@ -22,28 +22,29 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public LoginResponse register(RegisterRequest request) {
-    var user = UserEntity
-      .builder()
-      .firstName(request.getFirstName())
-      .lastName(request.getLastName())
-      .email(request.getEmail())
-      .password(passwordEncoder.encode(request.getPassword()))
+    UserEntity user = UserEntity.builder()
+      .firstName(request.firstName())
+      .lastName(request.lastName())
+      .email(request.email())
+      .password(passwordEncoder.encode(request.password()))
       .role(Role.ROLE_USER)
       .build();
 
     user = userService.save(user);
-    var jwt = jwtService.generateToken(user);
-    return LoginResponse.builder().token(jwt).build();
+    return this.generateToken(user);
   }
 
 
   public LoginResponse login(LoginRequest request) {
     authenticationManager.authenticate(
-      new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-    var user = userRepository.findByEmail(request.getEmail())
+      new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+    UserEntity user = userRepository.findByEmail(request.email())
       .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-    var jwt = jwtService.generateToken(user);
-    return LoginResponse.builder().token(jwt).build();
+    return this.generateToken(user);
   }
 
+  private LoginResponse generateToken(UserEntity user) {
+    String jwt = jwtService.generateToken(user);
+    return LoginResponse.builder().token(jwt).build();
+  }
 }

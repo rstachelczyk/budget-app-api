@@ -1,5 +1,6 @@
 package com.rstachelczyk.budget.controller;
 
+import com.rstachelczyk.budget.accessor.user.UserEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
 import com.rstachelczyk.budget.service.TransactionService;
@@ -10,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 /**
  * Transaction Controller.
@@ -78,10 +82,21 @@ public class TransactionController {
    * @param request transaction params
    * @return created transaction resource
    */
-  @PostMapping("")
+  @PostMapping
   public ResponseEntity<Transaction> createTransaction(
-      @Valid @RequestBody TransactionCreateDto request
+    @Valid @RequestBody TransactionCreateDto request,
+    @AuthenticationPrincipal UserEntity user,
+    Authentication auth,
+    Principal principal
   ) {
+    System.out.println(principal);
+    System.out.println(principal.getName());
+    System.out.println(auth);
+    System.out.println(auth.getDetails());
+    System.out.println(auth.getCredentials());
+    System.out.println(auth.getDetails());
+    System.out.println(user);
+    System.out.println(user.getId());
     return new ResponseEntity<>(
       this.transactionService.createTransaction(request),
       HttpStatus.CREATED

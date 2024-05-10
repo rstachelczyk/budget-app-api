@@ -73,10 +73,10 @@ public class TransactionService {
       throws ResourceNotFoundException {
     //Budget budget = this.budgetService.getBudget(params.getBudgetId());
 
-    Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
+    Optional<BudgetEntity> budget = this.budgetRepository.findById(params.budgetId());
 
     if (budget.isEmpty()) throw new ResourceNotFoundException(
-      "Budget not found with Id: " + params.getBudgetId());
+      "Budget not found with Id: " + params.budgetId());
 
     return this.transactionAccessor.createTransaction(params, budget.get());
   }

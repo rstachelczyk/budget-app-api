@@ -1,18 +1,19 @@
 package com.rstachelczyk.budget.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class RegisterRequest {
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
-  private String confirmPassword;
-}
+public record RegisterRequest(
+
+  @NotEmpty String firstName,
+
+  @NotEmpty String lastName,
+
+  @Email(regexp = "[^@]+@[^@]+\\.[^@.]+" ) @NotEmpty String email,
+
+  @NotEmpty String password,
+
+  @NotEmpty String confirmPassword
+) { }

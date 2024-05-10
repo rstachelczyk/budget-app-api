@@ -3,14 +3,12 @@ package com.rstachelczyk.budget.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,13 +44,12 @@ public class JwtService {
   }
 
   private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-    return Jwts
-      .builder()
+    return Jwts.builder()
       .claims(extraClaims)
       .subject(userDetails.getUsername())
       .issuedAt(new Date(System.currentTimeMillis()))
       .expiration(new Date(System.currentTimeMillis() + jwtExpirationTime))
-      .signWith(this.getSigningKey(), SignatureAlgorithm.HS256)
+      .signWith(this.getSigningKey())
       .compact();
   }
 
@@ -77,5 +74,4 @@ public class JwtService {
     byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
     return Keys.hmacShaKeyFor(keyBytes);
   }
-
 }

@@ -3,12 +3,14 @@ package com.rstachelczyk.budget.accessor.user;
 import com.rstachelczyk.budget.security.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,24 +22,35 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity implements UserDetails {
 
+  @Getter
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+  private Long id;
 
-  String firstName;
+  private String firstName;
 
-  String lastName;
+  private String lastName;
 
-  String email;
+  private String email;
 
-  String password;
+  private String password;
 
-  OffsetDateTime createdAt;
+  @CreatedDate
+  private LocalDateTime createdAt;
 
-  OffsetDateTime updatedAt;
+  @LastModifiedDate
+  private LocalDateTime updatedAt;
 
   @Enumerated(EnumType.STRING)
-  Role role;
+  private Role role;
+
+  private boolean isLocked;
+
+  private int failedAttempts;
+
+  private Date lockedAt;
+
+  private boolean isDisabled;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,7 +76,7 @@ public class UserEntity implements UserDetails {
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return !this.isLocked;
   }
 
   @Override
@@ -73,6 +86,6 @@ public class UserEntity implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return !this.isDisabled;
   }
 }
