@@ -19,7 +19,7 @@ RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
   -Dmaven.repo.local=${MAVEN_BUILD_REPO} \
   clean \
-  dependency:resolve
+  dependency:resolve \
 
 RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
