@@ -45,7 +45,8 @@ class TransactionAccessorTest {
     Pageable page = PageRequest.of(0, 20);
     BudgetEntity mockBudget = new BudgetEntity();
 
-    List<TransactionEntity> mockTransactionEntityList = List.of(TransactionEntity.builder()
+    List<TransactionEntity> mockTransactionEntityList = List.of(
+        TransactionEntity.builder()
             .id(1L)
             .budget(mockBudget)
             .description("test 1")
