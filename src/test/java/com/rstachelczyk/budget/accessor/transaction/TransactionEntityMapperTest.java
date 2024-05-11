@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 class TransactionEntityMapperTest {
 
   private TransactionEntityMapper mapper;
+
   private TransactionEntity entity;
+
   private BudgetEntity associatedEntity;
 
   @BeforeEach

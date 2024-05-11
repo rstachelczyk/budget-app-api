@@ -43,12 +43,9 @@ class TransactionServiceTest {
     List<Transaction> transactionList = new ArrayList<>();
     Page<Transaction> pagedResult = new PageImpl<>(transactionList);
 
-    when(transactionAccessorMock.fetchTransactions(any(Pageable.class)))
-      .thenReturn(pagedResult);
+    when(transactionAccessorMock.fetchTransactions(any(Pageable.class))).thenReturn(pagedResult);
 
-    Page<Transaction> response = this.transactionService.getTransactions(
-      0, 20, "id", "desc"
-    );
+    Page<Transaction> response = this.transactionService.getTransactions(0, 20, "id", "desc");
 
     assertThat(response).isNotNull();
   }
@@ -56,8 +53,7 @@ class TransactionServiceTest {
   @Test
   @DisplayName("When fetching a transaction by Id, returns Transaction DTO")
   void givenValidTransactionId_whenGetTransaction_thenReturnsTransactionDto() {
-    when(transactionAccessorMock.fetchTransaction(anyLong()))
-            .thenReturn(new Transaction());
+    when(transactionAccessorMock.fetchTransaction(anyLong())).thenReturn(new Transaction());
 
     Transaction response = this.transactionService.getTransaction(TestConstants.LONG);
 
@@ -73,7 +69,7 @@ class TransactionServiceTest {
     when(budgetRepositoryMock.findById(anyLong())).thenReturn(budgetOptional);
 
     when(transactionAccessorMock.createTransaction(params, budgetOptional.get()))
-      .thenReturn(new Transaction());
+        .thenReturn(new Transaction());
 
     Transaction response = this.transactionService.createTransaction(params);
 

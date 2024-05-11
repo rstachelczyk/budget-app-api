@@ -14,10 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Budget {
+
   private Long id;
+
   private String name;
+
   private Long targetAmount;
+
   private String icon;
+
   private OffsetDateTime createdAt;
+
   private OffsetDateTime updatedAt;
 }

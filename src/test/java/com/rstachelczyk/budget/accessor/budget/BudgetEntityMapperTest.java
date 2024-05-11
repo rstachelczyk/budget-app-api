@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 class BudgetEntityMapperTest {
 
   private BudgetEntityMapper mapper;
+
   private BudgetEntity entity;
 
   @BeforeEach
