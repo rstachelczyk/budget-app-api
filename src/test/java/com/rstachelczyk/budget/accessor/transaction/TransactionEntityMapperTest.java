@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.dto.Transaction;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,7 +111,7 @@ class TransactionEntityMapperTest {
   @Test
   @DisplayName("CreatedAt from entity is echoed on DTO")
   void createdAtFromEntityIsEchoedOnDto() {
-    entity.setCreatedAt(OffsetDateTime.now());
+    entity.setCreatedAt(LocalDateTime.now());
 
     Transaction transaction = this.mapper.map(entity);
 
@@ -121,7 +121,7 @@ class TransactionEntityMapperTest {
   @Test
   @DisplayName("updatedAt from entity is echoed on DTO")
   void updateAtFromEntityIsEchoedOnDto() {
-    entity.setUpdatedAt(OffsetDateTime.now());
+    entity.setUpdatedAt(LocalDateTime.now());
 
     Transaction transaction = this.mapper.map(entity);
 

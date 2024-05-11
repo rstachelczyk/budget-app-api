@@ -1,9 +1,9 @@
 package com.rstachelczyk.budget.accessor.budget;
 
-import static java.time.OffsetDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.rstachelczyk.budget.dto.Budget;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ class BudgetEntityMapperTest {
   @Test
   @DisplayName("createdAt from entity is echoed on DTO")
   void createdAtFromEntityIsEchoedOnDto() {
-    entity.setCreatedAt(now());
+    entity.setCreatedAt(LocalDateTime.now());
 
     Budget budget = this.mapper.map(entity);
 
@@ -73,7 +73,7 @@ class BudgetEntityMapperTest {
   @Test
   @DisplayName("updatedAt from entity is echoed on DTO")
   void updatedAtFromEntityIsEchoedOnDto() {
-    entity.setUpdatedAt(now());
+    entity.setUpdatedAt(LocalDateTime.now());
 
     Budget budget = this.mapper.map(entity);
 

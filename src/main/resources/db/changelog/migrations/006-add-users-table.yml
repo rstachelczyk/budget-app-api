@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 5
-      author: Liquibase
+      id: 6
+      author: Ryan Stachelczyk
       changes:
         - createTable:
             tableName: users
