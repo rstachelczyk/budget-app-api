@@ -1,4 +1,5 @@
-FROM maven:3.8-openjdk-17 AS budget-api-development
+#FROM maven:3.8-openjdk-17 AS budget-api-development
+FROM maven:3.9.6-ibm-semeru-17-focal as budget-api-development
 
 ENV LANG=C.UTF-8 \
     APP_HOME=/usr/src/app \
@@ -7,6 +8,10 @@ ENV LANG=C.UTF-8 \
 #    JAVA_HOME_SECURITY=$JAVA_HOME/lib/security
 
 WORKDIR $APP_HOME
+
+# Register Node 18 from Nodesource repository
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+  apt-get install -y nodejs
 
 COPY pom.xml ./
 
@@ -21,12 +26,15 @@ RUN mvn -Dmaven.main.skip \
   -Dmaven.repo.local=${MAVEN_BUILD_REPO} \
   dependency:resolve-plugins
 
+COPY package*.json ./
+
+RUN --mount=type=cache,target=./node_modules npm ci
+
 RUN mvn -Dmaven.main.skip \
   -Dmaven.test.skip=true \
   -Dspring-boot.repackage.skip \
   -Dmaven.repo.local=${MAVEN_BUILD_REPO} \
   package
-
 
 COPY . ./
 

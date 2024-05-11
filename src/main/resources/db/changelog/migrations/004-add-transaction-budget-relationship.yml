@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 4
-      author: Liquibase
+      author: Ryan Stachelczyk
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: budget_id

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5-1
+      author: Ryan Stachelczyk
+      context: playwright
+      changes:
+        - loadData:
+            tableName: BUDGETS
+            file: ../seed/budget.csv
+            relativeToChangelogFile: true
+            usePreparedStatements: true
+            encoding: UTF-8
+  - changeSet:
+      id: 5-2
+      author: Ryan Stachelczyk
+      context: playwright
+      changes:
+        - loadData:
+            tableName: TRANSACTIONS
+            file: ../seed/transaction.csv
+            relativeToChangelogFile: true
+            usePreparedStatements: true
+            encoding: UTF-8
