@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@RequestMapping("api/v1/transaction")
+@RequestMapping("api/v1/transactions")
 public class TransactionController {
 
   private final TransactionService transactionService;
@@ -45,7 +45,7 @@ public class TransactionController {
    * @return page of transactions
    */
   // CHECKSTYLE:OFF
-  @GetMapping("")
+  @GetMapping
   public ResponseEntity<Page<Transaction>> getTransactions(
       @RequestParam(
           value = "page",
