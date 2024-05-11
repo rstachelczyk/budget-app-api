@@ -17,12 +17,13 @@ import org.springframework.stereotype.Component;
 public class TransactionAccessor {
 
   private final TransactionRepository transactionRepository;
+
   private final TransactionEntityMapper transactionEntityMapper;
 
   /**
    * Constructor.
    *
-   * @param transactionRepository transaction repository
+   * @param transactionRepository   transaction repository
    * @param transactionEntityMapper entity mapper used to convert to Dto
    */
   @Autowired
@@ -38,6 +39,7 @@ public class TransactionAccessor {
    * Fetch transactions using pagination params and map each to DTO.
    *
    * @param pageable pagination params
+   *
    * @return page of transaction DTOs
    */
   public Page<Transaction> fetchTransactions(Pageable pageable) {
@@ -50,14 +52,17 @@ public class TransactionAccessor {
    * Fetch transaction by id and put into DTO.
    *
    * @param id transaction to be fetched
+   *
    * @return fetched transaction mapped to DTO
+   *
    * @throws ResourceNotFoundException resource not found exception
    */
   public Transaction fetchTransaction(long id) throws ResourceNotFoundException {
     Optional<TransactionEntity> transaction = this.transactionRepository.findById(id);
 
-    if (transaction.isEmpty()) throw new ResourceNotFoundException(
-        "Transaction not found with Id: " + id);
+    if (transaction.isEmpty()) {
+      throw new ResourceNotFoundException("Transaction not found with Id: " + id);
+    }
 
     return transactionEntityMapper.map(transaction.get());
   }
@@ -67,6 +72,7 @@ public class TransactionAccessor {
    *
    * @param params TransactionCreateDto instance
    * @param budget BudgetEntity instance
+   *
    * @return Transaction Dto of persisted transaction
    */
   public Transaction createTransaction(TransactionCreateDto params, BudgetEntity budget) {
@@ -83,6 +89,7 @@ public class TransactionAccessor {
    * Delete transaction by id.
    *
    * @param id transaction to be deleted
+   *
    * @throws ResourceNotFoundException resource not found exception
    */
   public void deleteTransaction(long id) throws ResourceNotFoundException {

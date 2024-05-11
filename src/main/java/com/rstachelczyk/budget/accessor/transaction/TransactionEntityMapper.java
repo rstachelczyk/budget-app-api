@@ -13,6 +13,7 @@ public class TransactionEntityMapper {
    * Handles the mapping.
    *
    * @param entity transaction entity to be mapped
+   *
    * @return Transaction DTO instance
    */
   public Transaction map(TransactionEntity entity) {

@@ -4,10 +4,14 @@ import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
+import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
 import com.rstachelczyk.budget.exception.ResourceNotFoundException;
 import com.rstachelczyk.budget.dto.Transaction;
@@ -43,9 +47,33 @@ class TransactionAccessorTest {
     BudgetEntity mockBudget = new BudgetEntity();
 
     List<TransactionEntity> mockTransactionEntityList = List.of(
-      new TransactionEntity(1L, mockBudget, "test 1",1000L, "charge", "settled", false, now(), now()),
-      new TransactionEntity(2L, mockBudget,  "test 2", 1000L, "charge", "settled", false, now(), now()),
-      new TransactionEntity(3L, mockBudget, "test 3", 1000L, "charge", "settled", false, now(), now())
+        TransactionEntity.builder()
+            .id(1L)
+            .budget(mockBudget)
+            .description("test 1")
+            .amount(1000L)
+            .type("charge")
+            .status("settled")
+            .isRecurring(false)
+            .build(),
+        TransactionEntity.builder()
+            .id(2L)
+            .budget(mockBudget)
+            .description("test 2")
+            .amount(1000L)
+            .type("charge")
+            .status("settled")
+            .isRecurring(false)
+            .build(),
+        TransactionEntity.builder()
+            .id(3L)
+            .budget(mockBudget)
+            .description("test 3")
+            .amount(1000L)
+            .type("charge")
+            .status("settled")
+            .isRecurring(false)
+            .build()
     );
     Page<TransactionEntity> mockRepositoryResponse = new PageImpl<>(mockTransactionEntityList);
 
@@ -79,8 +107,8 @@ class TransactionAccessorTest {
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-            ResourceNotFoundException.class,
-            () -> this.transactionAccessor.fetchTransaction(id)
+        ResourceNotFoundException.class,
+        () -> this.transactionAccessor.fetchTransaction(id)
     );
   }
 
@@ -88,25 +116,25 @@ class TransactionAccessorTest {
   @DisplayName("When creating new transaction, saves entity to db")
   void whenGivenValidTransactionAndBudget_createTransaction_savesEntityToDb() {
     BudgetEntity budget = BudgetEntity.builder()
-      .id(1L)
-      .name("Test")
-      .targetAmount(100L)
-      .createdAt(now())
-      .updatedAt(now())
-      .build();
+        .id(1L)
+        .name("Test")
+        .targetAmount(100L)
+        .createdAt(now())
+        .updatedAt(now())
+        .build();
 
     TransactionCreateDto params = new TransactionCreateDto(
-      "test 1", 1000L, 4L,"charge", "settled", false
+        "test 1", 1000L, 4L, "charge", "settled", false
     );
 
     TransactionEntity entity = params.toTransactionEntity();
     entity.setBudget(budget);
 
     when(this.transactionRepositoryMock.save(any(TransactionEntity.class)))
-      .thenReturn(entity);
+        .thenReturn(entity);
 
     when(this.transactionEntityMapperMock.map(any(TransactionEntity.class)))
-      .thenReturn(new Transaction());
+        .thenReturn(new Transaction());
 
     Transaction result = this.transactionAccessor.createTransaction(params, budget);
 
@@ -121,7 +149,7 @@ class TransactionAccessorTest {
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.of(new TransactionEntity()));
 
     when(transactionEntityMapperMock.map(any(TransactionEntity.class)))
-      .thenReturn(new Transaction());
+        .thenReturn(new Transaction());
 
     doNothing().when(transactionRepositoryMock).deleteById(id);
 
@@ -138,8 +166,8 @@ class TransactionAccessorTest {
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-      ResourceNotFoundException.class,
-      () -> this.transactionAccessor.deleteTransaction(id)
+        ResourceNotFoundException.class,
+        () -> this.transactionAccessor.deleteTransaction(id)
     );
   }
 }

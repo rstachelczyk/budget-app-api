@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 2
-      author: Liquibase
+      author: Ryan Stachelczyk
       changes:
         - createTable:
             tableName: transactions

@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
   /**
    * Handles resource not found errors.
    *
-   * @param ex  ResourceNotFoundException instance
+   * @param ex ResourceNotFoundException instance
+   *
    * @return 404 not found with errors list
    */
   @ExceptionHandler(ResourceNotFoundException.class)
@@ -32,6 +33,7 @@ public class GlobalExceptionHandler {
    * Handles validation errors.
    *
    * @param ex MethodArgumentNotValidException instance
+   *
    * @return 400 bad request with errors list
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)

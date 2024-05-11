@@ -30,7 +30,7 @@ import java.security.Principal;
  */
 @RestController
 @Slf4j
-@RequestMapping("api/v1/transaction")
+@RequestMapping("api/v1/transactions")
 public class TransactionController {
 
   private final TransactionService transactionService;
@@ -43,22 +43,39 @@ public class TransactionController {
   /**
    * Fetch list of transactions with pagination & sorting.
    *
-   * @param page page number
-   * @param limit page limit
-   * @param sortBy field to sort by
+   * @param page    page number
+   * @param limit   page limit
+   * @param sortBy  field to sort by
    * @param sortDir direction to sort in (asc, desc)
+   *
    * @return page of transactions
    */
   // CHECKSTYLE:OFF
-  @GetMapping("")
+  @GetMapping
   public ResponseEntity<Page<Transaction>> getTransactions(
-      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) Integer page,
-      @RequestParam(value = "limit", defaultValue = AppConstants.DEFAULT_PAGE_LIMIT, required = false) Integer limit,
-      @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-      @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIR, required = false) String sortDir
+      @RequestParam(
+          value = "page",
+          defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,
+          required = false
+      ) Integer page,
+      @RequestParam(
+          value = "limit",
+          defaultValue = AppConstants.DEFAULT_PAGE_LIMIT,
+          required = false
+      ) Integer limit,
+      @RequestParam(
+          value = "sortBy",
+          defaultValue = AppConstants.DEFAULT_SORT_BY,
+          required = false
+      ) String sortBy,
+      @RequestParam(
+          value = "sortDir",
+          defaultValue = AppConstants.DEFAULT_SORT_DIR,
+          required = false
+      ) String sortDir
   ) {
     return ResponseEntity.ok(
-      this.transactionService.getTransactions(page, limit, sortBy, sortDir)
+        this.transactionService.getTransactions(page, limit, sortBy, sortDir)
     );
   }
   // CHECKSTYLE:ON
@@ -67,12 +84,13 @@ public class TransactionController {
    * Fetch transaction by id.
    *
    * @param id transaction id
+   *
    * @return transaction
    */
   @GetMapping("/{id}")
   public ResponseEntity<Transaction> getTransaction(@PathVariable("id") final long id) {
     return ResponseEntity.ok(
-      this.transactionService.getTransaction(id)
+        this.transactionService.getTransaction(id)
     );
   }
 
@@ -80,6 +98,7 @@ public class TransactionController {
    * Create new transaction.
    *
    * @param request transaction params
+   *
    * @return created transaction resource
    */
   @PostMapping
@@ -98,8 +117,8 @@ public class TransactionController {
     System.out.println(user);
     System.out.println(user.getId());
     return new ResponseEntity<>(
-      this.transactionService.createTransaction(request),
-      HttpStatus.CREATED
+        this.transactionService.createTransaction(request),
+        HttpStatus.CREATED
     );
   }
 
@@ -107,6 +126,7 @@ public class TransactionController {
    * Delete transaction by id.
    *
    * @param id transaction id
+   *
    * @return transaction
    */
   @DeleteMapping("/{id}")
