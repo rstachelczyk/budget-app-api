@@ -10,7 +10,7 @@ ENV LANG=C.UTF-8 \
 WORKDIR $APP_HOME
 
 # Register Node 18 from Nodesource repository
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
   apt-get install -y nodejs
 
 COPY pom.xml ./
