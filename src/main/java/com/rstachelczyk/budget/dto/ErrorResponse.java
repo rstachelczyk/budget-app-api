@@ -12,11 +12,11 @@ public class ErrorResponse {
   private final List<Error> errors;
 
 
-  public ErrorResponse(List<Error> errorList) {
+  public ErrorResponse(final List<Error> errorList) {
     this.errors = errorList;
   }
 
-  public ErrorResponse(Error error) {
+  public ErrorResponse(final Error error) {
     this.errors = List.of(error);
   }
 }

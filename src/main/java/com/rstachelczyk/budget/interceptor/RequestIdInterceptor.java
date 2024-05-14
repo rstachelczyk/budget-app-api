@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -26,9 +27,11 @@ public class RequestIdInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(
-      HttpServletRequest request, HttpServletResponse response, Object handler
+      @NonNull final HttpServletRequest request,
+      @NonNull final HttpServletResponse response,
+      @NonNull final Object handler
   ) {
-    String requestIdHeader = sanitizeHeader(request.getHeader(REQUEST_ID));
+    final String requestIdHeader = sanitizeHeader(request.getHeader(REQUEST_ID));
 
     String mdcValue;
     if (StringUtils.isNotBlank(requestIdHeader)
@@ -46,12 +49,15 @@ public class RequestIdInterceptor implements HandlerInterceptor {
 
   @Override
   public void afterCompletion(
-      HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex
+      @NonNull final HttpServletRequest request,
+      @NonNull final HttpServletResponse response,
+      @NonNull final Object handler,
+      final Exception ex
   ) {
     MDC.clear();
   }
 
-  private String sanitizeHeader(String header) {
+  private String sanitizeHeader(final String header) {
     if (header == null) {
       return null;
     }

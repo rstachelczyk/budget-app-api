@@ -16,7 +16,7 @@ public class TransactionEntityMapper {
    *
    * @return Transaction DTO instance
    */
-  public Transaction map(TransactionEntity entity) {
+  public Transaction map(final TransactionEntity entity) {
     return Transaction.builder()
         .id(entity.getId())
         .budgetId(entity.getBudget().getId())

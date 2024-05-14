@@ -28,9 +28,11 @@
     docker compose build budget-api
     ```
 
-   **Warning:** you should check your user ID (if not on mac) before running the build incase
-   your user is 1001 while mine is 1000 or other such cases. If your user is not 1000, you will
-   need to supply the `UID` build argument.
+[//]: # (   **Warning:** you should check your user ID &#40;if not on mac&#41; before running the build incase)
+
+[//]: # (   your user is 1001 while mine is 1000 or other such cases. If your user is not 1000, you will)
+
+[//]: # (   need to supply the `UID` build argument.)
 
 [//]: # (1. Add environment variables to Shell RC file:)
 
@@ -54,7 +56,7 @@
 
 2. Run the stack:
     ```shell
-    docker compose down; docker compose up -d
+    docker compose up -d
     ```
 
    *Bonus tip:* You can alias this to: `dcd` and `dcu` respectively.
@@ -79,8 +81,8 @@ In order to ensure these tests run successfully, we need to ensure the db is see
 & we have installed the required packages via npm.
 
 The DB will be seeded when the `liquibase` container is brought up. As long as you have done
-that via the `docker compose up -d` step above, you should be good. You can confirm there is test
-data by connecting to the running postgres container with the following config:
+that, via the `docker compose up -d` step above, you should be good. You can confirm there is test
+data by connecting to the running postgres container using a db client with the following config:
 
 ```
 Host/Socket = 127.0.0.1
@@ -89,13 +91,26 @@ User = postgres
 Password = examplepassword
 ```
 
-Npm packages can be installed by running the following command in the root directory of the repo.
-```shell
-npm ci
+You can also check to make sure the liquibase migrations were ran successfully by viewing the
+container logs:
+
+```
+docker compose logs liquibase
 ```
 
-*Note:* This step assumes you have node installed on your machine already. You should now see
-a `node_modules` folder present in the root directory.
+You should see the following logs to ensure the migrations were ran properly:
+```
+Running Changeset: migrations/001-initial-setup.yaml::1::Ryan Stachelczyk
+Running Changeset: migrations/002-add-transaction-table.yml::2::Ryan Stachelczyk
+Running Changeset: migrations/003-add-budget-table.yml::3::Ryan Stachelczyk
+Running Changeset: migrations/004-add-transaction-budget-relationship.yml::4::Ryan Stachelczyk
+Running Changeset: migrations/005-playwright-seed-data.yml::5-1::Ryan Stachelczyk
+Running Changeset: migrations/005-playwright-seed-data.yml::5-2::Ryan Stachelczyk
+Liquibase command 'update' was executed successfully.
+liquibase-1 exited with code 0
+```
+*Note:* The list of migrations shown may be different in your logs but ensure the `seed-data` ones
+are present.
 
 Playwright tests can be run with the following command:
 ```shell
