@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <!-- Class exclusion -->
+  <!--  Example from work:-->
+
+  <!--  <Match>-->
+  <!--    <Class name="com.nelnetpay.transactionstatus.entities.StatusLog" />-->
+  <!--    <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />-->
+  <!--  </Match>-->
+
+  <!-- These are known to trigger on a lot of "normal" Lombok usage -->
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP"/>
+  </Match>
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+</FindBugsFilter>

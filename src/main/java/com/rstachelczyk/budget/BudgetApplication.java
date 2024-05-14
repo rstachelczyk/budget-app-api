@@ -16,11 +16,7 @@ public class BudgetApplication {
    *
    * @param args the application arguments
    */
-  public static void main(String[] args) {
-    try {
-      SpringApplication.run(BudgetApplication.class, args);
-    } catch (Exception e) {
-      log.error("Budget Api encountered and exception during startup", e);
-    }
+  public static void main(final String[] args) {
+    SpringApplication.run(BudgetApplication.class, args);
   }
 }

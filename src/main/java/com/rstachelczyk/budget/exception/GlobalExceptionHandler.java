@@ -2,13 +2,15 @@ package com.rstachelczyk.budget.exception;
 
 import com.rstachelczyk.budget.dto.Error;
 import com.rstachelczyk.budget.dto.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Global Exception Handler.
@@ -23,10 +25,12 @@ public class GlobalExceptionHandler {
    *
    * @return 404 not found with errors list
    */
-  @ExceptionHandler(ResourceNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
-    Error error = new Error("20", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(error));
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(EntityNotFoundException.class)
+  @ResponseBody
+  public ErrorResponse handleResourceNotFound(final EntityNotFoundException ex) {
+    final Error error = new Error("20", ex.getMessage());
+    return new ErrorResponse(error);
   }
 
   /**
@@ -36,15 +40,17 @@ public class GlobalExceptionHandler {
    *
    * @return 400 bad request with errors list
    */
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex) {
-    List<Error> errorList = new ArrayList<>();
+  @ResponseBody
+  public ErrorResponse handleValidationError(final MethodArgumentNotValidException ex) {
+    final List<Error> errorList = new ArrayList<>();
     ex.getFieldErrors().forEach(e -> {
-      Error error = new Error("10", e.getDefaultMessage());
+      final Error error = new Error("10", e.getDefaultMessage());
       errorList.add(error);
     });
 
-    ErrorResponse errorResponse = new ErrorResponse(errorList);
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    return new ErrorResponse(errorList);
   }
 }

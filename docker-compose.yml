@@ -31,6 +31,7 @@ services:
     volumes:
       - ./:/usr/src/app
       - ${HOME}/.m2/repository:/root/.m2/repository
+      - budget_node_modules-volume:/usr/src/app/node_modules
 
   nginx-proxy:
     image: jwilder/nginx-proxy:1.0
@@ -62,4 +63,5 @@ services:
       - postgres-volume:/var/lib/postgresql/data
 
 volumes:
+  budget_node_modules-volume:
   postgres-volume:

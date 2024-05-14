@@ -5,7 +5,7 @@ import com.rstachelczyk.budget.accessor.budget.BudgetRepository;
 import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
-import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,9 +27,9 @@ public class TransactionService {
 
   @Autowired
   public TransactionService(
-      TransactionAccessor transactionAccessor,
+      final TransactionAccessor transactionAccessor,
       //BudgetService budgetService
-      BudgetRepository budgetRepository
+      final BudgetRepository budgetRepository
   ) {
     this.transactionAccessor = transactionAccessor;
     //this.budgetService = budgetService;
@@ -46,12 +46,17 @@ public class TransactionService {
    *
    * @return page of transaction DTO
    */
-  public Page<Transaction> getTransactions(int page, int limit, String sortBy, String sortDir) {
-    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+  public Page<Transaction> getTransactions(
+      final int page,
+      final int limit,
+      final String sortBy,
+      final String sortDir
+  ) {
+    final Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
         ? Sort.by(sortBy).ascending()
         : Sort.by(sortBy).descending();
 
-    Pageable pageable = PageRequest.of(page, limit, sort);
+    final Pageable pageable = PageRequest.of(page, limit, sort);
 
     return this.transactionAccessor.fetchTransactions(pageable);
   }
@@ -63,7 +68,7 @@ public class TransactionService {
    *
    * @return transaction DTO
    */
-  public Transaction getTransaction(long id) {
+  public Transaction getTransaction(final long id) {
     return this.transactionAccessor.fetchTransaction(id);
   }
 
@@ -74,16 +79,17 @@ public class TransactionService {
    *
    * @return created transaction Dto
    *
-   * @throws ResourceNotFoundException resource not found exception
+   * @throws EntityNotFoundException resource not found exception
    */
-  public Transaction createTransaction(TransactionCreateDto params)
-      throws ResourceNotFoundException {
+  public Transaction createTransaction(final TransactionCreateDto params) {
     //Budget budget = this.budgetService.getBudget(params.getBudgetId());
 
-    Optional<BudgetEntity> budget = this.budgetRepository.findById(params.budgetId());
+    final Optional<BudgetEntity> budget = this.budgetRepository.findById(params.budgetId());
 
     if (budget.isEmpty()) {
-      throw new ResourceNotFoundException("Budget not found with Id: " + params.budgetId());
+      throw new EntityNotFoundException(
+          String.format("Could not find transaction (id=%d)", params.budgetId())
+      );
     }
 
     return this.transactionAccessor.createTransaction(params, budget.get());
@@ -94,7 +100,7 @@ public class TransactionService {
    *
    * @param id transaction id
    */
-  public void deleteTransaction(long id) {
+  public void deleteTransaction(final long id) {
     this.transactionAccessor.deleteTransaction(id);
   }
 }

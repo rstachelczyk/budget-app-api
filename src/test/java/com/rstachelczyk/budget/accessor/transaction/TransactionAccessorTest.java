@@ -13,8 +13,7 @@ import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
-import com.rstachelczyk.budget.exception.ResourceNotFoundException;
-import com.rstachelczyk.budget.dto.Transaction;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -107,7 +106,7 @@ class TransactionAccessorTest {
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-        ResourceNotFoundException.class,
+        EntityNotFoundException.class,
         () -> this.transactionAccessor.fetchTransaction(id)
     );
   }
@@ -166,7 +165,7 @@ class TransactionAccessorTest {
     when(transactionRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-        ResourceNotFoundException.class,
+        EntityNotFoundException.class,
         () -> this.transactionAccessor.deleteTransaction(id)
     );
   }
