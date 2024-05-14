@@ -14,25 +14,24 @@ public class LogMaskConverter extends CompositeConverter<ILoggingEvent> implemen
    * Handles log sanitization.
    *
    * @param event logging event
-   * @param s     log message string
+   * @param string log message string
    *
    * @return sanitized log message string
    */
-  public String transform(ILoggingEvent event, String s) {
+  @Override
+  public String transform(final ILoggingEvent event, final String string) {
     // Mask Card Number
-    s = s.replaceAll(
+    final String maskCardNumber = string.replaceAll(
         "(?<=cardNumber=)\\d+(?=(,|\\s|}))|(?<=\"cardNumber\":)\\d+(?=(,|\\s|}))",
         "[PAN]"
     );
 
     //Mask Card Verification Value
-    s = s.replaceAll(
+    return maskCardNumber.replaceAll(
         "(?<=cardVerificationValue=)\\d{3,4}(?=(,|\\s|}))|"
             + "(?<=\"cardVerificationValue\":)\\d{3,4}(?=(,|\\s|}))",
         "[CVV]"
     );
-
-    return s;
   }
 
   /**
@@ -47,23 +46,21 @@ public class LogMaskConverter extends CompositeConverter<ILoggingEvent> implemen
    * @return the masked object
    */
   @Override
-  public Object mask(JsonStreamContext context, Object value) {
+  public Object mask(final JsonStreamContext context, final Object value) {
     if (value instanceof CharSequence) {
-      String s = value.toString();
+      final String string = value.toString();
       // Mask Card Number
-      s = s.replaceAll(
+      final String noCardNumber = string.replaceAll(
           "(?<=cardNumber=)\\d+(?=(,|\\s|}))|(?<=\"cardNumber\":)\\d+(?=(,|\\s|}))",
           "[PAN]"
       );
 
       //Mask Card Verification Value
-      s = s.replaceAll(
+      return noCardNumber.replaceAll(
           "(?<=cardVerificationValue=)\\d{3,4}(?=(,|\\s|}))|"
               + "(?<=\"cardVerificationValue\":)\\d{3,4}(?=(,|\\s|}))",
           "[CVV]"
       );
-
-      return s;
     }
 
     return value;

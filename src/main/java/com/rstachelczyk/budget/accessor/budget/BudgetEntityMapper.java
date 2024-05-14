@@ -16,7 +16,7 @@ public class BudgetEntityMapper {
    *
    * @return Budget Dto instance
    */
-  public Budget map(BudgetEntity entity) {
+  public Budget map(final BudgetEntity entity) {
     return Budget.builder()
         .id(entity.getId())
         .name(entity.getName())

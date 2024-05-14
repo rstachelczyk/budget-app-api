@@ -13,11 +13,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Component
 public class MvcConfigurer implements WebMvcConfigurer {
 
+  private final RequestIdInterceptor requestIdInterceptor;
+
   @Autowired
-  RequestIdInterceptor requestIdInterceptor;
+  public MvcConfigurer(final RequestIdInterceptor requestIdInterceptor) {
+    this.requestIdInterceptor = requestIdInterceptor;
+  }
 
   @Override
-  public void addInterceptors(InterceptorRegistry registry) {
+  public void addInterceptors(final InterceptorRegistry registry) {
     registry.addInterceptor(requestIdInterceptor);
   }
 }

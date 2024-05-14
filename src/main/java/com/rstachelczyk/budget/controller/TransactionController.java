@@ -30,7 +30,7 @@ public class TransactionController {
   private final TransactionService transactionService;
 
   @Autowired
-  public TransactionController(TransactionService transactionService) {
+  public TransactionController(final TransactionService transactionService) {
     this.transactionService = transactionService;
   }
 
@@ -51,22 +51,22 @@ public class TransactionController {
           value = "page",
           defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,
           required = false
-      ) Integer page,
+      ) final Integer page,
       @RequestParam(
           value = "limit",
           defaultValue = AppConstants.DEFAULT_PAGE_LIMIT,
           required = false
-      ) Integer limit,
+      ) final Integer limit,
       @RequestParam(
           value = "sortBy",
           defaultValue = AppConstants.DEFAULT_SORT_BY,
           required = false
-      ) String sortBy,
+      ) final String sortBy,
       @RequestParam(
           value = "sortDir",
           defaultValue = AppConstants.DEFAULT_SORT_DIR,
           required = false
-      ) String sortDir
+      ) final String sortDir
   ) {
     return ResponseEntity.ok(
         this.transactionService.getTransactions(page, limit, sortBy, sortDir)
@@ -97,7 +97,7 @@ public class TransactionController {
    */
   @PostMapping("")
   public ResponseEntity<Transaction> createTransaction(
-      @Valid @RequestBody TransactionCreateDto request
+      @Valid @RequestBody final TransactionCreateDto request
   ) {
     return new ResponseEntity<>(
         this.transactionService.createTransaction(request),

@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.rstachelczyk.budget.TestConstants;
 import com.rstachelczyk.budget.dto.Budget;
-import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ class BudgetAccessorTest {
     when(budgetRepositoryMock.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-        ResourceNotFoundException.class,
+        EntityNotFoundException.class,
         () -> this.budgetAccessor.fetchBudget(id)
     );
   }

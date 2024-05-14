@@ -19,7 +19,7 @@ public class BudgetService {
    * @param budgetAccessor budget accessor
    */
   @Autowired
-  public BudgetService(BudgetAccessor budgetAccessor) {
+  public BudgetService(final BudgetAccessor budgetAccessor) {
     this.budgetAccessor = budgetAccessor;
   }
 
@@ -30,7 +30,7 @@ public class BudgetService {
    *
    * @return budget Dto
    */
-  public Budget getBudget(long id) {
+  public Budget getBudget(final long id) {
     return this.budgetAccessor.fetchBudget(id);
   }
 }

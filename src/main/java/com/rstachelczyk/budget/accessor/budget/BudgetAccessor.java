@@ -1,7 +1,7 @@
 package com.rstachelczyk.budget.accessor.budget;
 
 import com.rstachelczyk.budget.dto.Budget;
-import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,8 +24,8 @@ public class BudgetAccessor {
    */
   @Autowired
   public BudgetAccessor(
-      BudgetRepository budgetRepository,
-      BudgetEntityMapper budgetEntityMapper
+      final BudgetRepository budgetRepository,
+      final BudgetEntityMapper budgetEntityMapper
   ) {
     this.budgetRepository = budgetRepository;
     this.budgetEntityMapper = budgetEntityMapper;
@@ -38,13 +38,13 @@ public class BudgetAccessor {
    *
    * @return fetched budget mapped to Dto
    *
-   * @throws ResourceNotFoundException resource not found exception
+   * @throws EntityNotFoundException entity not found exception
    */
-  public Budget fetchBudget(long id) throws ResourceNotFoundException {
-    Optional<BudgetEntity> budget = this.budgetRepository.findById(id);
+  public Budget fetchBudget(final long id) {
+    final Optional<BudgetEntity> budget = this.budgetRepository.findById(id);
 
     if (budget.isEmpty()) {
-      throw new ResourceNotFoundException("Budget not found with Id: " + id);
+      throw new EntityNotFoundException(String.format("Could not find budget (id=%d)", id));
     }
 
     return this.budgetEntityMapper.map(budget.get());

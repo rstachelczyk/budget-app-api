@@ -6,7 +6,12 @@ import java.time.OffsetDateTime;
 /**
  * Transaction Factory.
  */
-public class TransactionFactory {
+public final class TransactionFactory {
+
+  /**
+   * Private Constructor.
+   */
+  private TransactionFactory() { }
 
   /**
    * Create example transaction.
@@ -15,7 +20,7 @@ public class TransactionFactory {
    *
    * @return transaction DTO
    */
-  public static Transaction exampleTransaction(Long id) {
+  public static Transaction exampleTransaction(final Long id) {
     return Transaction.builder()
         .id(id)
         .description("Test description")

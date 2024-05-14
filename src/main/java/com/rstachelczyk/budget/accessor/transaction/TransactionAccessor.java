@@ -3,7 +3,7 @@ package com.rstachelczyk.budget.accessor.transaction;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
-import com.rstachelczyk.budget.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +28,8 @@ public class TransactionAccessor {
    */
   @Autowired
   public TransactionAccessor(
-      TransactionRepository transactionRepository,
-      TransactionEntityMapper transactionEntityMapper
+      final TransactionRepository transactionRepository,
+      final TransactionEntityMapper transactionEntityMapper
   ) {
     this.transactionRepository = transactionRepository;
     this.transactionEntityMapper = transactionEntityMapper;
@@ -42,8 +42,8 @@ public class TransactionAccessor {
    *
    * @return page of transaction DTOs
    */
-  public Page<Transaction> fetchTransactions(Pageable pageable) {
-    Page<TransactionEntity> transactions = this.transactionRepository.findAll(pageable);
+  public Page<Transaction> fetchTransactions(final Pageable pageable) {
+    final Page<TransactionEntity> transactions = this.transactionRepository.findAll(pageable);
 
     return transactions.map(this.transactionEntityMapper::map);
   }
@@ -55,13 +55,13 @@ public class TransactionAccessor {
    *
    * @return fetched transaction mapped to DTO
    *
-   * @throws ResourceNotFoundException resource not found exception
+   * @throws EntityNotFoundException entity not found exception
    */
-  public Transaction fetchTransaction(long id) throws ResourceNotFoundException {
-    Optional<TransactionEntity> transaction = this.transactionRepository.findById(id);
+  public Transaction fetchTransaction(final long id) {
+    final Optional<TransactionEntity> transaction = this.transactionRepository.findById(id);
 
     if (transaction.isEmpty()) {
-      throw new ResourceNotFoundException("Transaction not found with Id: " + id);
+      throw new EntityNotFoundException(String.format("Could not find transaction (id=%d)", id));
     }
 
     return transactionEntityMapper.map(transaction.get());
@@ -75,8 +75,11 @@ public class TransactionAccessor {
    *
    * @return Transaction Dto of persisted transaction
    */
-  public Transaction createTransaction(TransactionCreateDto params, BudgetEntity budget) {
-    TransactionEntity transaction = params.toTransactionEntity();
+  public Transaction createTransaction(
+      final TransactionCreateDto params,
+      final BudgetEntity budget
+  ) {
+    final TransactionEntity transaction = params.toTransactionEntity();
     transaction.setBudget(budget);
 
     this.transactionRepository.save(transaction);
@@ -90,9 +93,9 @@ public class TransactionAccessor {
    *
    * @param id transaction to be deleted
    *
-   * @throws ResourceNotFoundException resource not found exception
+   * @throws EntityNotFoundException entity not found exception
    */
-  public void deleteTransaction(long id) throws ResourceNotFoundException {
+  public void deleteTransaction(final long id) {
     this.fetchTransaction(id);
 
     this.transactionRepository.deleteById(id);
