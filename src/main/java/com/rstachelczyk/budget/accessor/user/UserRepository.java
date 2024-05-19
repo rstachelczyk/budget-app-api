@@ -9,10 +9,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
   Optional<UserEntity> findByEmail(String email);
 
-  @Query("UPDATE UserEntity u SET u.lockedAt = NULL WHERE u.email = ?1")
-  @Modifying
-  void removeLockedAt(String email);
-
   @Query("UPDATE UserEntity u SET u.failedAttempts = ?1 WHERE u.email = ?2")
   @Modifying
   void updateFailedAttempts(int failAttempts, String email);
