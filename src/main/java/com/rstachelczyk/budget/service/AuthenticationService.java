@@ -21,6 +21,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public LoginResponse register(RegisterRequest request) {
+    //TODO: Ensure that email is unique before adding new users to DB
     UserEntity user = UserEntity.builder()
       .firstName(request.firstName())
       .lastName(request.lastName())
@@ -34,6 +35,13 @@ public class AuthenticationService {
   }
 
   public LoginResponse login(LoginRequest request) {
+    //Current DB interactions:
+    // Bad username / email: 1
+    // Bad password (bad attempts 1-4): 2
+    // Bad password (5th bad attempt without successful login): 2
+    // Locked Account (bad attempt): 1
+    // Success (no bad attempts): 1
+    // Success (with >1 bad attempts): 2
     Authentication auth = this.authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(request.email(), request.password()));
     UserEntity validUser = (UserEntity) auth.getPrincipal();
@@ -44,4 +52,6 @@ public class AuthenticationService {
     String jwt = this.jwtService.generateToken(user);
     return LoginResponse.builder().token(jwt).build();
   }
+
+  //TODO: Add reset password endpoint
 }

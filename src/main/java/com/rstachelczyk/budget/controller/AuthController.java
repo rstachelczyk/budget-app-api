@@ -52,7 +52,11 @@ public class AuthController {
   @ExceptionHandler(value = LockedException.class)
   public ErrorResponse handleAuthenticationExceptions(LockedException ex) {
     log.info("Account Locked Exception: {}", ex.getMessage());
-    final Error error = new Error("403", ex.getMessage());
+    final Error error = new Error(
+      "403",
+      "User account is locked. Please try again later or contact support. If you suspect "
+          + "someone trying to hack your account, please reset your password immediately."
+    );
     return new ErrorResponse(error);
   }
 

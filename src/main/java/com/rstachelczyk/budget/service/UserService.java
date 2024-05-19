@@ -41,6 +41,7 @@ public class UserService {
 
   public UserEntity save(UserEntity newUser) {
     if (newUser.getId() == null) {
+      //TODO: Fix audit setting the created at date
       newUser.setCreatedAt(LocalDateTime.now());
     }
 

@@ -57,10 +57,12 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
       UserDetails user
   ) {
     UserEntity userEntity = (UserEntity) user;
-    userEntity.setFailedAttempts(0);
-    userEntity.setLocked(false);
-    userEntity.setLockedAt(null);
-    this.userService.save(userEntity);
+    if (userEntity.getFailedAttempts() > 0) {
+      userEntity.setFailedAttempts(0);
+      userEntity.setLocked(false);
+      userEntity.setLockedAt(null);
+      this.userService.save(userEntity);
+    }
 
     return super.createSuccessAuthentication(principal, authentication, user);
   }

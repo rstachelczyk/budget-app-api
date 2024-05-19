@@ -22,9 +22,7 @@ public class CustomUserDetailsChecker implements UserDetailsChecker {
 //            .debug("Failed to authenticate since user account is locked");
 //        throw new LockedException(AbstractUserDetailsAuthenticationProvider.this.messages
 //            .getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"));
-        throw new LockedException(
-            "User account is locked. Please try again later or contact support."
-        );
+        throw new LockedException("User account is locked.");
       }
     }
 
