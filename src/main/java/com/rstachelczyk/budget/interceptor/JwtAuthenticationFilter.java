@@ -1,5 +1,6 @@
 package com.rstachelczyk.budget.interceptor;
 
+import com.rstachelczyk.budget.config.SecurityConfig;
 import com.rstachelczyk.budget.service.JwtService;
 import com.rstachelczyk.budget.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+import static com.rstachelczyk.budget.config.SecurityConfig.WHITE_LIST_URL;
 
 @Component
 @Slf4j
@@ -46,6 +49,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @NonNull HttpServletResponse response,
     @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
+    final String requestURI = request.getRequestURI();
+
+    // Check if the request URI matches any of the whitelisted URLs
+    boolean isWhitelisted = false;
+    for (String url : SecurityConfig.WHITE_LIST_URL) {
+      if (requestURI.startsWith(url)) {
+        isWhitelisted = true;
+        break;
+      }
+    }
+
+    // If the request is whitelisted, continue the filter chain without authentication
+    if (isWhitelisted) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     final String authHeader = request.getHeader(AUTHORIZATION);
     final String jwt;
     final String userEmail;

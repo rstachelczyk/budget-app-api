@@ -29,10 +29,11 @@ public class SecurityConfig
   private final CustomAuthenticationProvider customAuthenticationProvider;
 
   // Exclude login, register, and actuator endpoints from authentication
-  private static final String[] WHITE_LIST_URL = {
+   public static final String[] WHITE_LIST_URL = {
     "/api/v1/login",
     "/api/v1/register",
-    "/actuator/**",
+    "/actuator/health",
+    "/actuator/info",
     "/api/v1/transaction"
   };
 
