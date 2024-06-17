@@ -103,7 +103,7 @@ test('Budget Does Not Exist', async ({ request }) => {
   expect.soft(responseBody.errors).toContainEqual(
       {
           "code": "20",
-          "message": `Budget not found with Id: ${BUDGET_ID}`
+          "message": `Could not find budget (id=${BUDGET_ID})`
       }
   );
 });

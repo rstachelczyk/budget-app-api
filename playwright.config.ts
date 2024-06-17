@@ -21,30 +21,46 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? 'github' : [['list'], ['html', {open: 'never'}]],
+  baseURL:`http://localhost:${process.env.SERVER_PORT || '8080'}`,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: `http://localhost:${process.env.SERVER_PORT || '8080'}`,
-
-    extraHTTPHeaders: {
-      // Base authentication
-      'Authorization': `Bearer ${process.env.JWT_TOKEN}`,
-    },
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-  },
-//   projects: [
-//     {name: 'setup', testMatch: /.*\.setup\.ts/},
+//   use: {
+//     /* Base URL to use in actions like `await page.goto('/')`. */
+//     baseURL: `http://localhost:${process.env.SERVER_PORT || '8080'}`,
 //
-//     {
-//       name: 'api',
-//       user: {
-//         storageState: 'playwright/.auth/user.json'
-//       },
-//       dependencies: ['setup']
-//     }
-//   ]
+//     extraHTTPHeaders: {
+//       // Base authentication
+//       'Authorization': `Bearer ${process.env.JWT_TOKEN}`,
+//     },
+//     storageState: 'playwright/.auth/user.json'
+//
+//     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+//     trace: 'on-first-retry',
+//   },
+  projects: [
+    {
+      name: 'auth_setup',
+      testMatch: /.*\.setup\.ts/,
+      use: { baseURL: `http://localhost:${process.env.SERVER_PORT || '8080'}` }
+    },
+    {
+      name: 'api',
+      use: {
+
+        /* Base URL to use in actions like `await page.goto('/')`. */
+        baseURL: `http://localhost:${process.env.SERVER_PORT || '8080'}`,
+
+        extraHTTPHeaders: {
+          // Base authentication
+          'Authorization': `Bearer ${process.env.USER_JWT}`,
+        },
+//         storageState: 'playwright/.auth/user.json',
+
+        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+        trace: 'on-first-retry',
+      },
+      dependencies: ['auth_setup']
+    }
+  ]
 
   /* Configure projects for major browsers */
   // projects: [

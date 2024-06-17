@@ -81,14 +81,15 @@ public class TransactionService {
    *
    * @throws EntityNotFoundException resource not found exception
    */
+  //public Transaction createTransaction(final TransactionCreateDto params, final UserEntity user) {
   public Transaction createTransaction(final TransactionCreateDto params) {
     //Budget budget = this.budgetService.getBudget(params.getBudgetId());
 
-    final Optional<BudgetEntity> budget = this.budgetRepository.findById(params.getBudgetId());
+    final Optional<BudgetEntity> budget = this.budgetRepository.findById(params.budgetId());
 
     if (budget.isEmpty()) {
       throw new EntityNotFoundException(
-          String.format("Could not find transaction (id=%d)", params.getBudgetId())
+          String.format("Could not find budget (id=%d)", params.budgetId())
       );
     }
 

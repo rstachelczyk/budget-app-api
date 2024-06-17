@@ -1,26 +1,28 @@
 Budget App Use Cases
 
-As a user I want to be able to itemize expenses by category
+As a user I want to be able to itemize expenses by budget
 
-As a user I want to be able to itemize income by category
+As a user I want to be able to itemize income by budget
 
-As a user I want to be able to set a target (goal) for spending limits per category
+As a user I want to be able to set a target (goal) for spending limits per budget
  - Target of $100 per month for subscriptions
 
 As a user I want to be able to see overall income by subtracting expenses
 
 As a user I want to be able to have multiple budgets
 
-As a user I want to be able to have yearly reports per budget with the ability to combine all budgets
+As a user I want to be able to have yearly reports per budget with the ability to combine all budgets (or a certain subset)
 
 As a user I want to be able to view reports on an interval of my choosing (weekly, monthly, bi-weekly, yearly, etc)
  - Monthly to start
+
+*** As a user I want to be able to share budgets with other users (I really want this one)
 
 As a user I want to be able to export my reports to a csv
 
 As a user I want to be able to scan a receipt in order to add an expense
 
-As a user I want to see how my budget has evolved (store history of budget targets)
+As a user I want to see how my budget has evolved (store history of budget target amounts) (Similar to status log at work)
 
 When creating a transcation I want a toggle for tax related items - mom nice to have
 

@@ -1,6 +1,6 @@
 package com.rstachelczyk.budget.dto;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class Transaction {
 
   private Boolean isRecurring;
 
-  private OffsetDateTime createdAt;
+  private LocalDateTime createdAt;
 
-  private OffsetDateTime updatedAt;
+  private LocalDateTime updatedAt;
 }

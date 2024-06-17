@@ -1,6 +1,6 @@
 package com.rstachelczyk.budget.accessor.transaction;
 
-import static java.time.OffsetDateTime.now;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -123,7 +123,7 @@ class TransactionAccessorTest {
         .build();
 
     TransactionCreateDto params = new TransactionCreateDto(
-        "test 1", 1000L, 4L, "charge", "settled", false, now(), now()
+        "test 1", 1000L, 4L, "charge", "settled", false
     );
 
     TransactionEntity entity = params.toTransactionEntity();

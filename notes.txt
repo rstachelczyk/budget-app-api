@@ -5,8 +5,10 @@ The stats page with charts can be based off of this time frame with the option t
 Want to keep track of history for budgets and users
 -When they change their limits we want to have a history so I can show growth / decline over time
 
-Swift UI Course Video 
+Swift UI Course Video
 
 https://www.youtube.com/watch?v=b1oC7sLIgpI
 
+
+Budgets need to have a many to many relationship with users (this way they can be shared between users)
 

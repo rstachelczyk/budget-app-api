@@ -15,8 +15,8 @@ test('Get Transaction By Id', async ({ request }) => {
   expect.soft(responseBody.type).toBe('charge');
   expect.soft(responseBody.status).toBe('settled');
   expect.soft(responseBody.isRecurring).toBe(true);
-  expect.soft(responseBody.createdAt).toBe('2024-05-07T10:42:10.356206Z');
-  expect.soft(responseBody.updatedAt).toBe('2024-05-07T10:42:10.356206Z');
+  expect.soft(responseBody.createdAt).toBe('2024-05-07T10:42:10.356206');
+  expect.soft(responseBody.updatedAt).toBe('2024-05-07T10:42:10.356206');
 });
 
 test('Get Nonexistent Transaction', async ({ request }) => {
@@ -30,7 +30,7 @@ test('Get Nonexistent Transaction', async ({ request }) => {
   expect.soft(responseBody.errors).toContainEqual(
       {
           "code": "20",
-          "message": `Transaction not found with Id: ${INVALID_ID}`
+          "message": `Could not find transaction (id=${INVALID_ID})`
       }
   );
 });
