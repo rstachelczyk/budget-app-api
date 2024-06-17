@@ -104,19 +104,12 @@ public class TransactionController {
   @PostMapping
   public ResponseEntity<Transaction> createTransaction(
     @Valid @RequestBody final TransactionCreateDto request,
-    @AuthenticationPrincipal final UserEntity user,
-    final Authentication auth,
-    final Principal principal
+    @AuthenticationPrincipal final UserEntity user
+//    final Authentication auth
   ) {
-    System.out.println(principal);
-    System.out.println(principal.getName());
-    System.out.println(auth);
-    System.out.println(auth.getDetails());
-    System.out.println(auth.getCredentials());
-    System.out.println(auth.getDetails());
-    System.out.println(user);
-    System.out.println(user.getId());
+//    System.out.println(auth.getPrincipal());
     return new ResponseEntity<>(
+//        this.transactionService.createTransaction(request, user),
         this.transactionService.createTransaction(request),
         HttpStatus.CREATED
     );

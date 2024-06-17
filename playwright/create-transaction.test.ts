@@ -6,6 +6,7 @@ test('Create Charge Transaction', async ({ request }) => {
   const TYPE: string = 'charge';
   const STATUS: string = 'settled';
   const BUDGET_ID: number = 2;
+  console.log(process.env.USER_JWT);
 
   const response = await request.post('/api/v1/transactions', {
     data: {
@@ -103,7 +104,7 @@ test('Budget Does Not Exist', async ({ request }) => {
   expect.soft(responseBody.errors).toContainEqual(
       {
           "code": "20",
-          "message": `Budget not found with Id: ${BUDGET_ID}`
+          "message": `Could not find budget (id=${BUDGET_ID})`
       }
   );
 });

@@ -34,7 +34,6 @@ public class SecurityConfig
     "/api/v1/register",
     "/actuator/health",
     "/actuator/info",
-    "/api/v1/transaction"
   };
 
   @Autowired
