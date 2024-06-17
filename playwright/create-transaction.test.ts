@@ -6,7 +6,6 @@ test('Create Charge Transaction', async ({ request }) => {
   const TYPE: string = 'charge';
   const STATUS: string = 'settled';
   const BUDGET_ID: number = 2;
-  console.log(process.env.USER_JWT);
 
   const response = await request.post('/api/v1/transactions', {
     data: {
