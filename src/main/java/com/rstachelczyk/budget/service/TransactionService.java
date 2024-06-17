@@ -3,7 +3,6 @@ package com.rstachelczyk.budget.service;
 import com.rstachelczyk.budget.accessor.budget.BudgetEntity;
 import com.rstachelczyk.budget.accessor.budget.BudgetRepository;
 import com.rstachelczyk.budget.accessor.transaction.TransactionAccessor;
-import com.rstachelczyk.budget.accessor.user.UserEntity;
 import com.rstachelczyk.budget.dto.Transaction;
 import com.rstachelczyk.budget.dto.TransactionCreateDto;
 import jakarta.persistence.EntityNotFoundException;
@@ -82,7 +81,7 @@ public class TransactionService {
    *
    * @throws EntityNotFoundException resource not found exception
    */
-//  public Transaction createTransaction(final TransactionCreateDto params, final UserEntity user) {
+  //public Transaction createTransaction(final TransactionCreateDto params, final UserEntity user) {
   public Transaction createTransaction(final TransactionCreateDto params) {
     //Budget budget = this.budgetService.getBudget(params.getBudgetId());
 

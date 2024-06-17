@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
 
 /**
  * Transaction Controller.
@@ -103,13 +100,13 @@ public class TransactionController {
    */
   @PostMapping
   public ResponseEntity<Transaction> createTransaction(
-    @Valid @RequestBody final TransactionCreateDto request,
-    @AuthenticationPrincipal final UserEntity user
-//    final Authentication auth
+      @Valid @RequestBody final TransactionCreateDto request,
+      @AuthenticationPrincipal final UserEntity user
+  //final Authentication auth
   ) {
-//    System.out.println(auth.getPrincipal());
+    //System.out.println(auth.getPrincipal());
     return new ResponseEntity<>(
-//        this.transactionService.createTransaction(request, user),
+        //this.transactionService.createTransaction(request, user),
         this.transactionService.createTransaction(request),
         HttpStatus.CREATED
     );
@@ -129,6 +126,11 @@ public class TransactionController {
     return ResponseEntity.noContent().build();
   }
 
+  /**
+   * Hello world test endpoint.
+   *
+   * @return Hello World
+   */
   @GetMapping("/helloWorld")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<String> helloWorld() {

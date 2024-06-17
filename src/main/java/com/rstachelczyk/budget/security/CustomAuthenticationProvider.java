@@ -7,18 +7,20 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Custom Authentication Provider to provide account locking logic.
+ */
 @Component
 public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
   private final UserService userService;
 
   @Autowired
-  public CustomAuthenticationProvider(
+  /* default */ public CustomAuthenticationProvider(
       final UserService userService,
       final PasswordEncoder passwordEncoder,
       final CustomUserDetailsChecker customUserDetailsChecker
@@ -31,32 +33,35 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
 
   @Override
   protected void additionalAuthenticationChecks(
-      UserDetails userDetails,
-      UsernamePasswordAuthenticationToken authentication
-  ) throws AuthenticationException {
-    UserEntity user = (UserEntity) userDetails;
-
+      final UserDetails userDetails,
+      final UsernamePasswordAuthenticationToken authentication
+  ) {
     if (authentication.getCredentials() == null) {
       this.logger.debug("Failed to authenticate since no credentials provided");
       throw new BadCredentialsException(this.messages
-          .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+          .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials",
+              "Bad credentials"));
     }
-    String presentedPassword = authentication.getCredentials().toString();
+
+    final UserEntity user = (UserEntity) userDetails;
+    final String presentedPassword = authentication.getCredentials().toString();
+
     if (!this.getPasswordEncoder().matches(presentedPassword, userDetails.getPassword())) {
       this.updateUserLockStatus(user);
       this.logger.debug("Failed to authenticate since password does not match stored value");
       throw new BadCredentialsException(this.messages
-          .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+          .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials",
+              "Bad credentials"));
     }
   }
 
   @Override
   protected Authentication createSuccessAuthentication(
-      Object principal,
-      Authentication authentication,
-      UserDetails user
+      final Object principal,
+      final Authentication authentication,
+      final UserDetails user
   ) {
-    UserEntity userEntity = (UserEntity) user;
+    final UserEntity userEntity = (UserEntity) user;
     if (userEntity.getFailedAttempts() > 0) {
       userEntity.setFailedAttempts(0);
       userEntity.setLocked(false);
@@ -67,7 +72,7 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
     return super.createSuccessAuthentication(principal, authentication, user);
   }
 
-  private void updateUserLockStatus(UserEntity user) {
+  private void updateUserLockStatus(final UserEntity user) {
     if (user.getFailedAttempts() < UserService.MAX_FAILED_ATTEMPTS - 1) {
       this.userService.increaseFailedAttempts(user);
     } else {

@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * User service.
+ */
 @Service
 @Transactional
 public class UserService {
@@ -18,28 +21,50 @@ public class UserService {
   private final UserRepository userRepository;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
-      this.userRepository = userRepository;
+  /* default */ public UserService(final UserRepository userRepository) {
+    this.userRepository = userRepository;
   }
 
+  /**
+   * Get user details service lambda.
+   *
+   * @return User details service lambda for extracting users from DB.
+   */
   public UserDetailsService userDetailsService() {
     return username -> userRepository.findByEmail(username)
       .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
-  public void increaseFailedAttempts(UserEntity user) {
-    int newFailAttempts = user.getFailedAttempts() + 1;
+  /**
+   * Increase failed attempts for user by 1 on bad login attempts.
+   *
+   * @param user user entity
+   */
+  public void increaseFailedAttempts(final UserEntity user) {
+    final int newFailAttempts = user.getFailedAttempts() + 1;
     this.userRepository.updateFailedAttempts(newFailAttempts, user.getEmail());
   }
 
-  public void lock(UserEntity user) {
+  /**
+   * Lock user account and update lockedAt datetime.
+   *
+   * @param user user entity
+   */
+  public void lock(final UserEntity user) {
     user.setLocked(true);
     user.setLockedAt(LocalDateTime.now());
 
     this.userRepository.save(user);
   }
 
-  public UserEntity save(UserEntity newUser) {
+  /**
+   * Set timestamps when creating or updating user. Will be removed for auditor logic.
+   *
+   * @param newUser user entity
+   *
+   * @return updated user entity after saving to db
+   */
+  public UserEntity save(final UserEntity newUser) {
     if (newUser.getId() == null) {
       //TODO: Fix audit setting the created at date
       newUser.setCreatedAt(LocalDateTime.now());

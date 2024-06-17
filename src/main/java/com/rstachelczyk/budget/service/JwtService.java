@@ -5,63 +5,88 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import javax.crypto.SecretKey;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
+/**
+ * JWT Service.
+ */
 @Service
 @Slf4j
 public class JwtService {
-  public static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
-  private static final int BEARER_TOKEN_PREFIX_LENGTH = BEARER_TOKEN_PREFIX.length();
+  private @Value("${token.secret.key}") String jwtSecretKey;
+  private @Value("${token.expiration}") Long jwtExpirationTime;
 
-  @Value("${token.secret.key}") String jwtSecretKey;
-  @Value("${token.expiration}") Long jwtExpirationTime;
-
-  public String extractUserName(String token) {
+  /**
+   * Extract username from existing JWT.
+   *
+   * @param token existing token
+   *
+   * @return username associated with token
+   */
+  public String extractUserName(final String token) {
     return extractClaim(token, Claims::getSubject);
   }
 
-  public String generateToken(UserDetails userDetails) {
+  /**
+   * Validate existing JWT.
+   *
+   * @param token token to validate
+   * @param userDetails user details
+   *
+   * @return true if valid JWT
+   */
+  public boolean isValidToken(final String token, final UserDetails userDetails) {
+    final String userName = extractUserName(token);
+    return userName.equals(userDetails.getUsername()) && !isExpiredToken(token);
+  }
+
+  /**
+   * Create new JWT token.
+   *
+   * @param userDetails user details to use for new token
+   *
+   * @return new JWT
+   */
+  public String generateToken(final UserDetails userDetails) {
     return generateToken(new HashMap<>(), userDetails);
   }
 
-  public boolean isValidToken(String token, UserDetails userDetails) {
-    final String userName = extractUserName(token);
-    return (userName.equals(userDetails.getUsername())) && !isExpiredToken(token);
-  }
-
-  private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-    final Claims claims = extractAllClaims(token);
-    return claimsResolvers.apply(claims);
-  }
-
-  private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+  private String generateToken(
+      final Map<String, Object> extraClaims,
+      final UserDetails userDetails
+  ) {
     return Jwts.builder()
       .claims(extraClaims)
       .subject(userDetails.getUsername())
       .issuedAt(new Date(System.currentTimeMillis()))
-      .expiration(new Date(System.currentTimeMillis() + jwtExpirationTime))
+      .expiration(new Date(System.currentTimeMillis() + this.jwtExpirationTime))
       .signWith(this.getSigningKey())
       .compact();
   }
 
-  private boolean isExpiredToken(String token) {
+  private <T> T extractClaim(final String token, final Function<Claims, T> claimsResolvers) {
+    final Claims claims = extractAllClaims(token);
+    return claimsResolvers.apply(claims);
+  }
+
+  private boolean isExpiredToken(final String token) {
     return extractExpiration(token).before(new Date());
   }
 
-  private Date extractExpiration(String token) {
+  private Date extractExpiration(final String token) {
     return extractClaim(token, Claims::getExpiration);
   }
 
-  private Claims extractAllClaims(String token) {
+  private Claims extractAllClaims(final String token) {
     return Jwts
       .parser()
       .verifyWith(this.getSigningKey())
@@ -71,7 +96,7 @@ public class JwtService {
   }
 
   private SecretKey getSigningKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
+    final byte[] keyBytes = Decoders.BASE64.decode(this.jwtSecretKey);
     return Keys.hmacShaKeyFor(keyBytes);
   }
 }
